@@ -1,31 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5B Tech Support</title>
-    <meta name="description" content="Tech support for seniors, courses, device setup guides, and troubleshooting by 5B Tech Support.">
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; background-color: #f9f9f9; color: #333; }
-        header { padding: 2rem; background-color: #1f2937; color: white; }
-        section { padding: 2rem; }
-        footer { padding: 1rem; background-color: #f1f1f1; font-size: 0.9rem; }
-        .btn { display: inline-block; margin: 1rem; padding: 0.75rem 1.5rem; background-color: #2563eb; color: #fff; border-radius: 0.5rem; text-decoration: none; font-size: 1rem; }
-        .btn:hover { background-color: #1e40af; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5B Tech Support – Tech Help Made Simple</title>
+  <meta name="description" content="5B Tech Support helps seniors and beginners set up devices, fix tech issues and learn to use technology with confidence.">
+  <style>
+    :root {
+      --primary-color: #6a36cb;
+      --secondary-color: #1e293b;
+      --accent-color: #f5ebff;
+      --text-color: #1e293b;
+      --bg-color: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      font-size: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    header {
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: var(--bg-color);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: bold;
+    }
+    nav a:hover { color: var(--primary-color); }
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .controls button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+    /* Hero section */
+    .hero {
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+    .hero-shape {
+      display: inline-block;
+      background-color: var(--accent-color);
+      padding: 3rem 2rem;
+      border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
+      max-width: 600px;
+    }
+    .hero h2 {
+      margin-top: 0;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+    }
+    .hero p {
+      margin: 1rem 0 2rem;
+      font-size: 1.25rem;
+    }
+    .cta-button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1.25rem;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    /* Sections */
+    section {
+      padding: 3rem 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    #mission .card {
+      background-color: var(--accent-color);
+      padding: 2rem;
+      border-radius: 1rem;
+    }
+    #services {
+      background-color: var(--accent-color);
+      text-align: center;
+    }
+    .service-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .service-item {
+      background-color: var(--bg-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      max-width: 300px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .service-item h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+    .service-item p {
+      margin-bottom: 0;
+      font-size: 1.1rem;
+    }
+    #contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #contact label {
+      font-weight: bold;
+    }
+    #contact input,
+    #contact textarea {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+    }
+    #contact button {
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    footer {
+      padding: 2rem 1rem;
+      text-align: center;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    /* High contrast mode */
+    .high-contrast {
+      --primary-color: #000000;
+      --secondary-color: #000000;
+      --accent-color: #ffff00;
+      --bg-color: #ffffff;
+      --text-color: #000000;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav ul { flex-direction: column; align-items: center; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to 5B Tech Support</h1>
-        <p>Helping you with tech setup, courses, and troubleshooting.</p>
-    </header>
-    <section>
-        <h2>Our Services</h2>
-        <p>Courses, device setup guides, quick fixes, and an AI chatbot are coming soon.</p>
-        <a href="#" class="btn">Contact Us</a>
-    </section>
-    <footer>
-        <p>&copy; 2025 5B Tech Support. All rights reserved.</p>
-    </footer>
+  <header>
+    <h1>5B Tech Support</h1>
+    <nav>
+      <ul>
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="controls">
+      <button id="font-toggle">A+</button>
+      <button id="contrast-toggle">High Contrast</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-shape">
+      <h2>Tech made simple, at your door.</h2>
+      <p>Friendly, in-home tech support for seniors, beginners and everyone in between.</p>
+      <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">Contact Us</button>
+    </div>
+  </section>
+
+  <section id="mission">
+    <div class="card">
+      <h2>Our Mission</h2>
+      <p>At 5B Tech Support, our mission is to make reliable tech help easy and accessible. We specialize in software support, troubleshooting, and solving everyday tech problems—right where you need it. As a young, growing business, we’re dedicated to providing excellent service at fair, competitive rates—because building trust is at the core of everything we do.</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <p>Some things we offer. Learn more on the Services page.</p>
+    <div class="service-grid">
+      <div class="service-item">
+        <h3>Tech Fixes & Support</h3>
+        <p>From stubborn software issues to syncing problems, we solve the day-to-day tech headaches that slow you down.</p>
+      </div>
+      <div class="service-item">
+        <h3>Setup & Organization</h3>
+        <p>We help with device setup, file organization, and cloud transfers so your digital world is clean and connected.</p>
+      </div>
+      <div class="service-item">
+        <h3>Personal Guidance</h3>
+        <p>Need advice or want to feel more confident with your tech? Our consultations and training services empower you.</p>
+      </div>
+    </div>
+    <p><a href="#" style="color: var(--primary-color); font-weight: bold;">All Services ›</a></p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <label for="fname">First name*</label>
+      <input id="fname" name="fname" type="text" placeholder="First name" required>
+      <label for="lname">Last name</label>
+      <input id="lname" name="lname" type="text" placeholder="Last name">
+      <label for="email">Email*</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      <label for="city">City*</label>
+      <input id="city" name="city" type="text" placeholder="Your city" required>
+      <label for="message">Write a message*</label>
+      <textarea id="message" name="message" rows="4" placeholder="How can we help?" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    <p style="margin-top:1rem;">Or call us at <strong>(208) 727‑7510</strong> or email <strong>info@5BTechSupport.com</strong></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 5B Tech Support LLC | All rights reserved.</p>
+    <p>info@5BTechSupport.com | (208) 727‑7510</p>
+  </footer>
+
+  <script>
+    // Increase font size gradually
+    document.getElementById('font-toggle').addEventListener('click', function() {
+      const currentSize = parseFloat(window.getComputedStyle(document.body).fontSize);
+      document.body.style.fontSize = (currentSize + 2) + 'px';
+    });
+    // Toggle high contrast
+    document.getElementById('contrast-toggle').addEventListener('click', function() {
+      document.body.classList.toggle('high-contrast');
+    });
+    // Accessible form: placeholder for submission
+    document.querySelector('#contact form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you! We will be in touch soon.');
+    });
+  </script>
 </body>
 </html>
