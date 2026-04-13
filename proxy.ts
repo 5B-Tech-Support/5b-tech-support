@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createMiddlewareClient } from "@/lib/supabase/middleware";
+import { createProxyClient } from "@/lib/supabase/proxy";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
 const PUBLIC_ROUTES = [
@@ -19,7 +19,7 @@ function isPublicRoute(pathname: string): boolean {
   return PUBLIC_ROUTES.some((route) => pathname === route);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Stripe webhook must bypass auth entirely (raw body, no cookies)
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Refresh Supabase session on every request
-  const { supabaseResponse, user } = await createMiddlewareClient(request);
+  const { supabaseResponse, user } = await createProxyClient(request);
 
   // Public routes don't require auth
   if (isPublicRoute(pathname)) {
