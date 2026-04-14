@@ -1,0 +1,11 @@
+# https://render.com/docs/yaml-spec
+services:
+  - type: web
+    name: 5b-tech-support
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"

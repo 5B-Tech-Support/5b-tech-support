@@ -1,0 +1,6 @@
+# Nixpacks / Railway / Coolify — explicit Next.js build + start (avoids plain-Node entrypoint detection)
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run start"
