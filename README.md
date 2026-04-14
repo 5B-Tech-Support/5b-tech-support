@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 5B Tech Support
+
+A tutorial platform that helps non-tech-savvy people with Windows tech issues through organized written guides and email support.
+
+**Stack:** Next.js 16 (App Router), TypeScript, Supabase (auth + Postgres), Stripe, Tailwind CSS, deployed on Vercel.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+cp .env.example .env.local   # fill in your keys
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [`.env.example`](.env.example) for all required values. Key ones:
 
-## Learn More
+| Variable | Where to find it |
+|----------|-----------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase dashboard > Settings > API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same page, "anon / public" key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Same page, "service_role" key (keep secret) |
+| `STRIPE_SECRET_KEY` | Stripe dashboard > Developers > API keys |
+| `STRIPE_PRICE_PRO` | Stripe dashboard > Products > Pro plan price ID |
+| `STRIPE_WEBHOOK_SECRET` | Stripe dashboard > Developers > Webhooks |
+| `NEXT_PUBLIC_APP_URL` | Your production URL (e.g. `https://5btechsupport.com`) |
 
-To learn more about Next.js, take a look at the following resources:
+## Supabase Auth Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For email verification and password reset to work:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. In **Supabase Dashboard > Authentication > URL Configuration**:
+   - **Site URL:** `https://your-domain.com` (or `http://localhost:3000` for dev)
+   - **Redirect URLs:** add `https://your-domain.com/api/auth/callback` and `http://localhost:3000/api/auth/callback`
 
-## Deploy on Vercel
+2. Run the database schema against your Supabase project:
+   - Go to **SQL Editor** in your Supabase dashboard
+   - Paste and run the contents of [`supabase/schema.sql`](supabase/schema.sql)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Create a **Supabase Storage bucket** called `support-attachments` (for ticket file uploads).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stripe Setup
+
+1. Create a product with a recurring $3.99/month price in Stripe.
+2. Copy the price ID to `STRIPE_PRICE_PRO`.
+3. Set up a webhook endpoint pointing to `https://your-domain.com/api/billing/webhook` listening for:
+   - `checkout.session.completed`
+   - `customer.subscription.updated`
+   - `customer.subscription.deleted`
+   - `invoice.payment_failed`
+
+## Deploy
+
+Push to GitHub and import to [Vercel](https://vercel.com). Framework preset: **Next.js** (auto-detected). Set environment variables in Vercel project settings.
