@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import type { User } from "@supabase/supabase-js";
+
+async function getUser(): Promise<User | null> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    return user;
+  } catch {
+    return null;
+  }
+}
 
 export async function SiteHeader() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUser();
 
   return (
     <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-40">
