@@ -103,18 +103,16 @@ export default function TicketDetailPage() {
         </div>
       </div>
 
-      {/* Original description */}
-      <div className="mt-6 rounded-xl border border-border p-5">
+      <div className="mt-6 rounded-2xl border border-border p-5">
         <p className="whitespace-pre-wrap text-sm">{ticket.description}</p>
       </div>
 
-      {/* Messages thread */}
       {messages.length > 0 && (
         <div className="mt-6 space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`rounded-xl border p-4 ${
+              className={`rounded-2xl border p-4 ${
                 msg.sender_role === "agent"
                   ? "border-primary/30 bg-primary/5"
                   : "border-border"
@@ -139,7 +137,6 @@ export default function TicketDetailPage() {
         </div>
       )}
 
-      {/* Reply form */}
       {ticket.status !== "resolved" && (
         <form onSubmit={handleReply} className="mt-6">
           <textarea
@@ -148,12 +145,12 @@ export default function TicketDetailPage() {
             rows={4}
             required
             placeholder="Write a reply..."
-            className="block w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted"
+            className="block w-full rounded-xl border border-border bg-background px-4 py-3 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
           />
           <button
             type="submit"
             disabled={sending || !replyBody.trim()}
-            className="mt-3 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50"
+            className="mt-3 rounded-xl gradient-button px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           >
             {sending ? "Sending..." : "Send reply"}
           </button>

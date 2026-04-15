@@ -51,33 +51,35 @@ export function AuthForm({
 
   return (
     <div className="mx-auto max-w-md px-4 py-16">
-      <h1 className="text-2xl font-bold">{title}</h1>
-      {description && <p className="mt-2 text-sm text-muted">{description}</p>}
+      <div className="rounded-2xl border border-border bg-surface/50 p-8 shadow-[0_0_40px_rgba(124,58,237,0.06)]">
+        <h1 className="text-2xl font-bold">{title}</h1>
+        {description && <p className="mt-2 text-sm text-muted">{description}</p>}
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-        {error && (
-          <div className="rounded-md bg-danger/10 px-4 py-3 text-sm text-danger">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="rounded-md bg-success/10 px-4 py-3 text-sm text-success">
-            {success}
-          </div>
-        )}
+        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+          {error && (
+            <div className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
+              {success}
+            </div>
+          )}
 
-        {children}
+          {children}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50"
-        >
-          {loading ? "Please wait..." : submitLabel}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl gradient-button py-3 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {loading ? "Please wait..." : submitLabel}
+          </button>
+        </form>
 
-      {footer && <div className="mt-6 text-center text-sm text-muted">{footer}</div>}
+        {footer && <div className="mt-6 text-center text-sm text-muted">{footer}</div>}
+      </div>
     </div>
   );
 }
@@ -91,7 +93,7 @@ export function Input({
       <span className="text-sm font-medium">{label}</span>
       <input
         {...props}
-        className="mt-1 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
+        className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
       />
     </label>
   );
