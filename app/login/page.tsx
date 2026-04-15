@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AuthForm, Input } from "@/components/auth-form";
@@ -9,7 +10,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   invalid_code: "The verification link has expired or already been used. Please request a new one.",
 };
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams();
   const callbackError = searchParams.get("error");
 
@@ -49,5 +50,13 @@ export default function LoginPage() {
         </Link>
       </div>
     </AuthForm>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
