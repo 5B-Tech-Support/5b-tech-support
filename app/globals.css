@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --surface: #f9fafb;
-  --border: #e5e7eb;
-  --muted: #6b7280;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  --background: #faf8ff;
+  --foreground: #1e1133;
+  --surface: #f5f3ff;
+  --border: #e0d7fe;
+  --muted: #7c6f93;
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
   --primary-foreground: #ffffff;
   --danger: #dc2626;
   --success: #16a34a;
+
+  --gradient-hero: linear-gradient(135deg, #1e1133 0%, #2e1065 40%, #4c1d95 70%, #1e3a5f 100%);
+  --gradient-accent: linear-gradient(135deg, #7c3aed, #db2777);
+  --gradient-cta: linear-gradient(135deg, #7c3aed, #6d28d9, #4c1d95);
+  --gradient-glow: 0 0 40px rgba(124, 58, 237, 0.3), 0 0 80px rgba(124, 58, 237, 0.1);
+  --gradient-border: linear-gradient(90deg, transparent, #7c3aed, #db2777, transparent);
 }
 
 @theme inline {
@@ -30,16 +36,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --surface: #1e293b;
-    --border: #334155;
-    --muted: #94a3b8;
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
+    --background: #0c0a1d;
+    --foreground: #ede9fe;
+    --surface: #1a1533;
+    --border: #2e2650;
+    --muted: #a199b8;
+    --primary: #8b5cf6;
+    --primary-hover: #a78bfa;
     --primary-foreground: #ffffff;
     --danger: #ef4444;
     --success: #22c55e;
+
+    --gradient-hero: linear-gradient(135deg, #0c0a1d 0%, #1e1065 40%, #2e1065 70%, #0c1a2e 100%);
+    --gradient-accent: linear-gradient(135deg, #8b5cf6, #ec4899);
+    --gradient-cta: linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9);
+    --gradient-glow: 0 0 50px rgba(139, 92, 246, 0.35), 0 0 100px rgba(139, 92, 246, 0.15);
   }
 }
 
@@ -49,8 +60,47 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
-/* Accessible focus ring for interactive elements */
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-button {
+  background: var(--gradient-cta);
+  transition: box-shadow 0.3s ease, transform 0.15s ease;
+}
+
+.gradient-button:hover {
+  box-shadow: var(--gradient-glow);
+  transform: translateY(-1px);
+}
+
+.gradient-border-top {
+  height: 2px;
+  background: var(--gradient-border);
+}
+
+.hero-gradient {
+  background: var(--gradient-hero);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-gradient::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+  pointer-events: none;
 }

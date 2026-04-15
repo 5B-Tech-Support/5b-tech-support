@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { Metadata } from "next";
 
 interface Ticket {
   id: string;
@@ -14,8 +13,8 @@ interface Ticket {
 
 const statusColors: Record<string, string> = {
   open: "bg-primary/10 text-primary",
-  awaiting_response: "bg-yellow-100 text-yellow-800",
-  in_progress: "bg-blue-100 text-blue-800",
+  awaiting_response: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+  in_progress: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
   resolved: "bg-success/10 text-success",
 };
 
@@ -36,7 +35,7 @@ export default function TicketsPage() {
         <h1 className="text-2xl font-bold">Support Tickets</h1>
         <Link
           href="/support/tickets/new"
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors"
+          className="rounded-xl gradient-button px-4 py-2 text-sm font-semibold text-white"
         >
           New ticket
         </Link>
@@ -45,7 +44,7 @@ export default function TicketsPage() {
       {loading ? (
         <p className="mt-8 text-sm text-muted">Loading tickets...</p>
       ) : tickets.length === 0 ? (
-        <div className="mt-8 rounded-xl border border-border p-8 text-center text-sm text-muted">
+        <div className="mt-8 rounded-2xl border border-border p-8 text-center text-sm text-muted">
           <p>No tickets yet.</p>
           <p className="mt-1">
             Need help?{" "}
@@ -56,7 +55,7 @@ export default function TicketsPage() {
           </p>
         </div>
       ) : (
-        <ul className="mt-6 divide-y divide-border rounded-xl border border-border">
+        <ul className="mt-6 divide-y divide-border rounded-2xl border border-border overflow-hidden">
           {tickets.map((ticket) => (
             <li key={ticket.id}>
               <Link

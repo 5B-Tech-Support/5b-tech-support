@@ -39,30 +39,33 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16">
+    <div className="mx-auto max-w-5xl px-4 py-20">
       <div className="text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">
-          Simple, honest pricing
+          Simple, <span className="gradient-text">honest</span> pricing
         </h1>
         <p className="mt-3 text-muted">
           No hidden fees. Cancel any time. Try Pro free for 30 days.
         </p>
       </div>
 
-      <div className="mt-12 grid gap-8 sm:grid-cols-2">
+      <div className="mt-14 grid gap-8 sm:grid-cols-2">
         {plans.map((plan) => (
           <div
             key={plan.name}
-            className={`rounded-xl border p-8 ${
+            className={`relative rounded-2xl border p-8 ${
               plan.featured
-                ? "border-primary ring-2 ring-primary/20"
+                ? "border-primary/50 shadow-[0_0_30px_rgba(124,58,237,0.12)]"
                 : "border-border"
             }`}
           >
             {plan.featured && (
-              <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                Most popular
-              </span>
+              <>
+                <div className="absolute -top-px left-8 right-8 h-0.5" style={{ background: "var(--gradient-accent)" }} />
+                <span className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold text-white gradient-button">
+                  Most popular
+                </span>
+              </>
             )}
             <h2 className="text-xl font-semibold">{plan.name}</h2>
             <p className="mt-1 text-sm text-muted">{plan.description}</p>
@@ -73,16 +76,16 @@ export default function PricingPage() {
             <ul className="mt-6 space-y-3">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2 text-sm">
-                  <span className="mt-0.5 text-success">&#10003;</span>
+                  <span className="mt-0.5 text-primary">&#10003;</span>
                   {feature}
                 </li>
               ))}
             </ul>
             <Link
               href={plan.href}
-              className={`mt-8 block rounded-lg py-3 text-center text-sm font-medium transition-colors ${
+              className={`mt-8 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ${
                 plan.featured
-                  ? "bg-primary text-primary-foreground hover:bg-primary-hover"
+                  ? "gradient-button text-white"
                   : "border border-border hover:bg-surface"
               }`}
             >

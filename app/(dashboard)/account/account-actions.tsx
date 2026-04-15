@@ -36,7 +36,7 @@ export function AccountActions({
             )
           }
           disabled={loading === "manage"}
-          className="rounded-lg border border-border px-5 py-2.5 text-sm font-medium hover:bg-surface transition-colors disabled:opacity-50"
+          className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium hover:bg-surface transition-colors disabled:opacity-50"
         >
           {loading === "manage" ? "Loading..." : "Manage subscription"}
         </button>
@@ -47,7 +47,7 @@ export function AccountActions({
               handleBillingAction("/api/billing/create-checkout", "upgrade")
             }
             disabled={loading === "upgrade"}
-            className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50"
+            className="rounded-xl gradient-button px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           >
             {loading === "upgrade" ? "Loading..." : "Upgrade to Pro — $3.99/mo"}
           </button>
@@ -57,7 +57,7 @@ export function AccountActions({
       <form action="/api/auth/signout" method="POST">
         <button
           type="submit"
-          className="rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-danger hover:bg-surface transition-colors"
+          className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-danger hover:bg-surface transition-colors"
         >
           Sign out
         </button>
@@ -65,7 +65,7 @@ export function AccountActions({
 
       <Link
         href="/support/tickets"
-        className="rounded-lg border border-border px-5 py-2.5 text-sm font-medium hover:bg-surface transition-colors"
+        className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium hover:bg-surface transition-colors"
       >
         My support tickets
       </Link>

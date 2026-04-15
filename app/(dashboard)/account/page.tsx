@@ -40,36 +40,39 @@ export default async function AccountPage() {
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-2xl font-bold">Your Account</h1>
 
-      <div className="mt-8 rounded-xl border border-border p-6">
-        <dl className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <dt className="text-sm text-muted">Email</dt>
-            <dd className="font-medium">{profile.email}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-muted">Name</dt>
-            <dd className="font-medium">{profile.full_name ?? "—"}</dd>
-          </div>
-          <div>
-            <dt className="text-sm text-muted">Plan</dt>
-            <dd className="font-medium capitalize">
-              {entitlements.tier}
-              {entitlements.isTrialActive && (
-                <span className="ml-2 text-xs text-primary">(trial active)</span>
-              )}
-              {entitlements.isTrialExpired && (
-                <span className="ml-2 text-xs text-danger">(trial expired)</span>
-              )}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-sm text-muted">Support response</dt>
-            <dd className="font-medium">
-              {entitlements.supportResponseDays} business day
-              {entitlements.supportResponseDays !== 1 ? "s" : ""}
-            </dd>
-          </div>
-        </dl>
+      <div className="mt-8 overflow-hidden rounded-2xl border border-border">
+        <div className="h-1.5" style={{ background: "var(--gradient-accent)" }} />
+        <div className="p-6">
+          <dl className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <dt className="text-sm text-muted">Email</dt>
+              <dd className="font-medium">{profile.email}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-muted">Name</dt>
+              <dd className="font-medium">{profile.full_name ?? "—"}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-muted">Plan</dt>
+              <dd className="font-medium capitalize">
+                {entitlements.tier}
+                {entitlements.isTrialActive && (
+                  <span className="ml-2 text-xs text-primary">(trial active)</span>
+                )}
+                {entitlements.isTrialExpired && (
+                  <span className="ml-2 text-xs text-danger">(trial expired)</span>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-sm text-muted">Support response</dt>
+              <dd className="font-medium">
+                {entitlements.supportResponseDays} business day
+                {entitlements.supportResponseDays !== 1 ? "s" : ""}
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
 
       <AccountActions
@@ -77,8 +80,7 @@ export default async function AccountPage() {
         tier={entitlements.tier}
       />
 
-      {/* Saved guides placeholder */}
-      <div className="mt-10 rounded-xl border border-border p-6 text-center text-sm text-muted">
+      <div className="mt-10 rounded-2xl border border-border p-6 text-center text-sm text-muted">
         <p className="font-medium text-foreground">Saved Guides</p>
         <p className="mt-1">
           Your saved guides will appear here once the guide library is live.

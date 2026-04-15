@@ -16,9 +16,10 @@ export async function SiteHeader() {
   const user = await getUser();
 
   return (
-    <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-40">
+    <header className="sticky top-0 z-40 bg-background/70 backdrop-blur-xl">
+      <div className="gradient-border-top" />
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
+        <Link href="/" className="text-lg font-semibold tracking-tight gradient-text">
           5B Tech Support
         </Link>
 
@@ -40,7 +41,7 @@ export async function SiteHeader() {
               </Link>
               <Link
                 href="/account"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors"
+                className="rounded-md gradient-button px-4 py-2 text-sm font-medium text-primary-foreground"
               >
                 Account
               </Link>
@@ -55,7 +56,7 @@ export async function SiteHeader() {
               </Link>
               <Link
                 href="/register"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors"
+                className="rounded-md gradient-button px-4 py-2 text-sm font-medium text-primary-foreground"
               >
                 Get Started
               </Link>

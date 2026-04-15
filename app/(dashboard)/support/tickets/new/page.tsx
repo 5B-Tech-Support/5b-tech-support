@@ -59,7 +59,7 @@ export default function NewTicketPage() {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
         {error && (
-          <div className="rounded-md bg-danger/10 px-4 py-3 text-sm text-danger">
+          <div className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">
             {error}
           </div>
         )}
@@ -69,7 +69,7 @@ export default function NewTicketPage() {
           <input
             name="title"
             required
-            className="mt-1 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted"
+            className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
             placeholder="e.g. Can't connect to Wi-Fi after update"
           />
         </label>
@@ -79,7 +79,7 @@ export default function NewTicketPage() {
             <span className="text-sm font-medium">Operating system</span>
             <select
               name="os_type"
-              className="mt-1 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm"
+              className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
             >
               <option value="">Select...</option>
               {osOptions.map((o) => (
@@ -94,7 +94,7 @@ export default function NewTicketPage() {
             <span className="text-sm font-medium">Category</span>
             <select
               name="issue_category"
-              className="mt-1 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm"
+              className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
             >
               <option value="">Select...</option>
               {categoryOptions.map((c) => (
@@ -112,7 +112,7 @@ export default function NewTicketPage() {
             name="description"
             required
             rows={6}
-            className="mt-1 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted"
+            className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
             placeholder="Tell us what's happening, what you've already tried, and any error messages you see."
           />
         </label>
@@ -120,7 +120,7 @@ export default function NewTicketPage() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50"
+          className="rounded-xl gradient-button px-6 py-3 text-sm font-semibold text-white disabled:opacity-50"
         >
           {loading ? "Submitting..." : "Submit ticket"}
         </button>
