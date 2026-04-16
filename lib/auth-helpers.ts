@@ -46,9 +46,9 @@ export async function logAudit(
   action: string,
   metadata: Record<string, unknown> = {}
 ) {
-  await supabaseAdmin.from("audit_log").insert({
-    user_id: userId,
+  await supabaseAdmin.from("admin_audit_log").insert({
+    actor_user_id: userId,
     action,
-    metadata,
+    after_json: metadata,
   });
 }
