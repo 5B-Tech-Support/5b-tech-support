@@ -80,6 +80,8 @@ export default function RegisterPage() {
 
   const doSignup = useCallback(async (formData: FormData, selectedPlan: "free" | "pro") => {
     const email = formData.get("email") as string;
+    const firstName = (formData.get("first_name") as string).trim();
+    const lastName = (formData.get("last_name") as string).trim();
     const endpoint = selectedPlan === "pro" ? "/api/auth/signup-pro-trial" : "/api/auth/signup";
     const res = await fetch(endpoint, {
       method: "POST",
@@ -87,7 +89,7 @@ export default function RegisterPage() {
       body: JSON.stringify({
         email,
         password: formData.get("password"),
-        full_name: formData.get("full_name"),
+        full_name: `${firstName} ${lastName}`,
       }),
     });
     const data = await res.json();
@@ -151,7 +153,10 @@ export default function RegisterPage() {
           </>
         }
       >
-        <Input label="Full name" name="full_name" type="text" required autoComplete="name" />
+        <div className="grid grid-cols-2 gap-3">
+          <Input label="First name" name="first_name" type="text" required autoComplete="given-name" />
+          <Input label="Last name" name="last_name" type="text" required autoComplete="family-name" />
+        </div>
         <Input label="Email" name="email" type="email" required autoComplete="email" />
         <Input label="Password" name="password" type="password" required minLength={6} autoComplete="new-password" />
         <Input label="Confirm password" name="confirm_password" type="password" required minLength={6} autoComplete="new-password" />
