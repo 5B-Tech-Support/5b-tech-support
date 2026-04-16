@@ -31,7 +31,8 @@ export async function POST(request: Request) {
       return NextResponse.json({
         user: data.user,
         profile,
-        message: "Check your email for a verification link",
+        email,
+        message: "Check your email for a verification code",
       });
     }
 

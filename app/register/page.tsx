@@ -79,19 +79,20 @@ export default function RegisterPage() {
   } | null>(null);
 
   const doSignup = useCallback(async (formData: FormData, selectedPlan: "free" | "pro") => {
+    const email = formData.get("email") as string;
     const endpoint = selectedPlan === "pro" ? "/api/auth/signup-pro-trial" : "/api/auth/signup";
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: formData.get("email"),
+        email,
         password: formData.get("password"),
         full_name: formData.get("full_name"),
       }),
     });
     const data = await res.json();
     if (!res.ok) return { error: data.error ?? "Sign up failed" };
-    return { redirect: "/verify-email" };
+    return { redirect: `/verify-email?email=${encodeURIComponent(email)}` };
   }, []);
 
   function handleTrialConfirm() {

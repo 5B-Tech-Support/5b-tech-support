@@ -37,8 +37,9 @@ export async function POST(request: Request) {
       return NextResponse.json({
         user: data.user,
         profile,
+        email,
         message:
-          "Check your email for a verification link. Your 30-day Pro trial has started.",
+          "Check your email for a verification code. Your 30-day Pro trial has started.",
       });
     }
 
