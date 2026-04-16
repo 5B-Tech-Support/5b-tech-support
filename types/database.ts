@@ -79,6 +79,25 @@ export interface SupportTicketAttachment {
   created_at: string;
 }
 
+export type GuideDifficulty = "beginner" | "intermediate" | "advanced";
+
+export interface Guide {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  os_type: OsType;
+  tier_required: UserTier;
+  difficulty: GuideDifficulty;
+  estimated_minutes: number;
+  thumbnail_url: string | null;
+  content: string;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface UserSavedGuide {
   user_id: string;
   guide_slug: string;
