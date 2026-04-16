@@ -10,6 +10,7 @@ interface AuthFormProps {
   onSubmit: (formData: FormData) => Promise<{ error?: string; redirect?: string; message?: string }>;
   children: ReactNode;
   footer?: ReactNode;
+  disclaimer?: string;
 }
 
 export function AuthForm({
@@ -20,6 +21,7 @@ export function AuthForm({
   onSubmit,
   children,
   footer,
+  disclaimer,
 }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(initialError ?? null);
@@ -51,7 +53,7 @@ export function AuthForm({
 
   return (
     <div className="mx-auto max-w-md px-4 py-16">
-      <div className="rounded-2xl border border-border bg-surface/50 p-8 shadow-[0_0_40px_rgba(124,58,237,0.06)]">
+      <div className="rounded-2xl border border-border bg-background p-8">
         <h1 className="text-2xl font-bold">{title}</h1>
         {description && <p className="mt-2 text-sm text-muted">{description}</p>}
 
@@ -72,12 +74,15 @@ export function AuthForm({
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl gradient-button py-3 text-sm font-semibold text-white disabled:opacity-50"
+            className="btn-primary w-full py-3"
           >
-            {loading ? "Please wait..." : submitLabel}
+            {loading ? "Please wait\u2026" : submitLabel}
           </button>
         </form>
 
+        {disclaimer && (
+          <p className="disclaimer mt-4 text-center">{disclaimer}</p>
+        )}
         {footer && <div className="mt-6 text-center text-sm text-muted">{footer}</div>}
       </div>
     </div>

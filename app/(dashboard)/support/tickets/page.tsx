@@ -33,29 +33,26 @@ export default function TicketsPage() {
     <div className="mx-auto max-w-3xl px-4 py-12">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Support Tickets</h1>
-        <Link
-          href="/support/tickets/new"
-          className="rounded-xl gradient-button px-4 py-2 text-sm font-semibold text-white"
-        >
-          New ticket
+        <Link href="/support/tickets/new" className="btn-primary">
+          New Ticket
         </Link>
       </div>
 
       {loading ? (
         <p className="mt-8 text-sm text-muted">Loading tickets...</p>
       ) : tickets.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-border p-8 text-center text-sm text-muted">
-          <p>No tickets yet.</p>
-          <p className="mt-1">
-            Need help?{" "}
-            <Link href="/support/tickets/new" className="text-primary hover:underline">
-              Create a ticket
-            </Link>{" "}
-            and our team will get back to you.
+        <div className="mt-8 rounded-xl border border-border p-8 text-center">
+          <p className="font-medium">You haven&apos;t submitted any tickets.</p>
+          <p className="mt-2 text-sm text-muted">
+            If you need help, start by browsing the{" "}
+            <Link href="/help-center" className="text-primary hover:underline">
+              Help Center
+            </Link>
+            .
           </p>
         </div>
       ) : (
-        <ul className="mt-6 divide-y divide-border rounded-2xl border border-border overflow-hidden">
+        <ul className="mt-6 divide-y divide-border rounded-xl border border-border overflow-hidden">
           {tickets.map((ticket) => (
             <li key={ticket.id}>
               <Link

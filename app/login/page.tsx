@@ -16,9 +16,9 @@ function LoginForm() {
 
   return (
     <AuthForm
-      title="Welcome back"
-      description="Sign in to your 5B Tech Support account."
-      submitLabel="Sign in"
+      title="Sign in"
+      description="Welcome back to 5B Tech Support."
+      submitLabel="Sign In"
       initialError={callbackError ? ERROR_MESSAGES[callbackError] ?? "Something went wrong. Please try again." : undefined}
       onSubmit={async (formData) => {
         const res = await fetch("/api/auth/signin", {
@@ -31,13 +31,13 @@ function LoginForm() {
         });
         const data = await res.json();
         if (!res.ok) return { error: data.error ?? "Sign in failed" };
-        return { redirect: "/account" };
+        return { redirect: "/dashboard" };
       }}
       footer={
         <>
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-primary hover:underline">
-            Sign up
+            Create one
           </Link>
         </>
       }
@@ -46,7 +46,7 @@ function LoginForm() {
       <Input label="Password" name="password" type="password" required autoComplete="current-password" />
       <div className="text-right">
         <Link href="/forgot-password" className="text-xs text-primary hover:underline">
-          Forgot password?
+          Forgot your password?
         </Link>
       </div>
     </AuthForm>
