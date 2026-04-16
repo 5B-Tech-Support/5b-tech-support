@@ -103,7 +103,7 @@ export default function TicketDetailPage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-border p-5">
+      <div className="mt-6 rounded-xl border border-border p-5">
         <p className="whitespace-pre-wrap text-sm">{ticket.description}</p>
       </div>
 
@@ -112,7 +112,7 @@ export default function TicketDetailPage() {
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`rounded-2xl border p-4 ${
+              className={`rounded-xl border p-4 ${
                 msg.sender_role === "agent"
                   ? "border-primary/30 bg-primary/5"
                   : "border-border"
@@ -150,9 +150,9 @@ export default function TicketDetailPage() {
           <button
             type="submit"
             disabled={sending || !replyBody.trim()}
-            className="mt-3 rounded-xl gradient-button px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            className="btn-primary mt-3"
           >
-            {sending ? "Sending..." : "Send reply"}
+            {sending ? "Sending..." : "Send Reply"}
           </button>
         </form>
       )}

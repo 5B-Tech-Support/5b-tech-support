@@ -16,49 +16,56 @@ export async function SiteHeader() {
   const user = await getUser();
 
   return (
-    <header className="sticky top-0 z-40 bg-background/70 backdrop-blur-xl">
-      <div className="gradient-border-top" />
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="text-lg font-semibold tracking-tight gradient-text">
-          5B Tech Support
+        <Link href="/" className="flex items-baseline gap-1.5">
+          <span className="text-xl font-extrabold text-primary">5B</span>
+          <span className="font-mono text-xs font-medium tracking-wider text-muted">
+            TECH SUPPORT
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-6 text-sm">
-          <Link
-            href="/pricing"
-            className="text-muted hover:text-foreground transition-colors"
-          >
-            Pricing
-          </Link>
-
+        <nav className="flex items-center gap-5 text-sm">
           {user ? (
             <>
-              <Link
-                href="/support/tickets"
-                className="text-muted hover:text-foreground transition-colors"
-              >
-                My Tickets
+              <Link href="/dashboard" className="text-muted hover:text-foreground transition-colors">
+                Dashboard
               </Link>
-              <Link
-                href="/account"
-                className="rounded-md gradient-button px-4 py-2 text-sm font-medium text-primary-foreground"
-              >
-                Account
+              <Link href="/help-center" className="text-muted hover:text-foreground transition-colors">
+                Help Center
+              </Link>
+              <Link href="/saved-guides" className="text-muted hover:text-foreground transition-colors">
+                Saved Guides
+              </Link>
+              <Link href="/support/tickets" className="text-muted hover:text-foreground transition-colors">
+                Support Tickets
+              </Link>
+              <Link href="/billing" className="text-muted hover:text-foreground transition-colors">
+                Billing
+              </Link>
+              <Link href="/settings" className="text-muted hover:text-foreground transition-colors">
+                Settings
               </Link>
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="text-muted hover:text-foreground transition-colors"
-              >
-                Log in
+              <Link href="/" className="text-muted hover:text-foreground transition-colors">
+                Home
               </Link>
-              <Link
-                href="/register"
-                className="rounded-md gradient-button px-4 py-2 text-sm font-medium text-primary-foreground"
-              >
-                Get Started
+              <Link href="/help-center" className="text-muted hover:text-foreground transition-colors">
+                Help Center
+              </Link>
+              <Link href="/plans" className="text-muted hover:text-foreground transition-colors">
+                Plans
+              </Link>
+              <Link href="/faq" className="text-muted hover:text-foreground transition-colors">
+                FAQ
+              </Link>
+              <Link href="/register" className="btn-primary !py-2 !px-4 !text-sm">
+                Create Account
+              </Link>
+              <Link href="/login" className="text-muted hover:text-foreground transition-colors font-medium">
+                Log In
               </Link>
             </>
           )}

@@ -6,9 +6,9 @@ import { AuthForm, Input } from "@/components/auth-form";
 export default function ForgotPasswordPage() {
   return (
     <AuthForm
-      title="Reset your password"
-      description="Enter your email and we'll send a reset link."
-      submitLabel="Send reset link"
+      title="Forgot your password?"
+      description="We'll send you an email with a link to reset your password."
+      submitLabel="Send Reset Link"
       onSubmit={async (formData) => {
         const res = await fetch("/api/auth/forgot-password", {
           method: "POST",
