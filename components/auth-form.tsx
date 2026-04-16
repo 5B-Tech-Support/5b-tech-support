@@ -53,18 +53,18 @@ export function AuthForm({
 
   return (
     <div className="mx-auto max-w-md px-4 py-16">
-      <div className="rounded-2xl border border-border bg-background p-8">
+      <div className="glass-strong rounded-2xl p-8 animate-fade-up">
         <h1 className="text-2xl font-bold">{title}</h1>
         {description && <p className="mt-2 text-sm text-muted">{description}</p>}
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           {error && (
-            <div className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">
+            <div className="animate-fade-in rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger backdrop-blur-sm">
               {error}
             </div>
           )}
           {success && (
-            <div className="rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
+            <div className="animate-fade-in rounded-xl bg-success/10 px-4 py-3 text-sm text-success backdrop-blur-sm">
               {success}
             </div>
           )}
@@ -98,7 +98,7 @@ export function Input({
       <span className="text-sm font-medium">{label}</span>
       <input
         {...props}
-        className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
+        className="mt-1 block w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm px-4 py-2.5 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
       />
     </label>
   );

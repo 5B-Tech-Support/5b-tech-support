@@ -7,14 +7,15 @@ interface ViewToggleProps {
 
 export function ViewToggle({ view, onChange }: ViewToggleProps) {
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+    <div className="glass flex items-center gap-1 rounded-lg p-0.5">
       <button
         onClick={() => onChange("list")}
-        className={`rounded-md p-1.5 transition-colors ${
+        className={`rounded-md p-1.5 transition-all duration-200 ${
           view === "list"
-            ? "bg-primary text-white"
+            ? "text-white"
             : "text-muted hover:text-foreground"
         }`}
+        style={view === "list" ? { background: "var(--accent-gradient)" } : undefined}
         aria-label="List view"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -25,11 +26,12 @@ export function ViewToggle({ view, onChange }: ViewToggleProps) {
       </button>
       <button
         onClick={() => onChange("grid")}
-        className={`rounded-md p-1.5 transition-colors ${
+        className={`rounded-md p-1.5 transition-all duration-200 ${
           view === "grid"
-            ? "bg-primary text-white"
+            ? "text-white"
             : "text-muted hover:text-foreground"
         }`}
+        style={view === "grid" ? { background: "var(--accent-gradient)" } : undefined}
         aria-label="Grid view"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

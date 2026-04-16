@@ -26,12 +26,14 @@ export default function HelpCenterPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <h1 className="text-2xl font-bold">Help Center</h1>
-      <p className="mt-2 text-muted">
-        Choose your operating system to find guides.
-      </p>
+      <div className="animate-fade-up">
+        <h1 className="text-2xl font-bold">Help Center</h1>
+        <p className="mt-2 text-muted">
+          Choose your operating system to find guides.
+        </p>
+      </div>
 
-      <form onSubmit={handleSearch} className="mt-4">
+      <form onSubmit={handleSearch} className="mt-4 animate-fade-up stagger-1">
         <div className="relative">
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
@@ -51,24 +53,24 @@ export default function HelpCenterPage() {
             placeholder="Search all guides\u2026"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-border bg-background py-3 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-3 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
           />
         </div>
       </form>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 animate-fade-up stagger-2">
         <Link
           href="/help-center/windows11"
-          className="rounded-xl border border-border p-8 text-center transition-colors hover:border-primary/40 hover:bg-primary/5"
+          className="glass-strong rounded-2xl p-8 text-center card-hover"
         >
-          <div className="text-4xl">{"\ud83e\ude9f"}</div>
+          <div className="text-4xl animate-float">{"\ud83e\ude9f"}</div>
           <h2 className="mt-4 text-lg font-semibold">Windows 11</h2>
           <p className="mt-1 text-sm text-muted">
             Browse guides for Windows 11
           </p>
         </Link>
 
-        <div className="rounded-xl border border-border bg-surface p-8 text-center opacity-60">
+        <div className="glass rounded-2xl p-8 text-center opacity-60">
           <div className="text-4xl">{"\ud83c\udf4e"}</div>
           <h2 className="mt-4 text-lg font-semibold">macOS</h2>
           <span className="mt-2 inline-block rounded-full bg-muted/20 px-3 py-1 text-xs font-medium text-muted">
@@ -78,14 +80,14 @@ export default function HelpCenterPage() {
       </div>
 
       {popular.length > 0 && (
-        <div className="mt-12">
+        <div className="mt-12 animate-fade-up stagger-3">
           <h2 className="font-semibold">Popular Guides</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {popular.map((guide) => (
               <Link
                 key={guide.slug}
                 href={`/guide/${guide.slug}`}
-                className="rounded-xl border border-border p-4 transition-colors hover:border-primary/40 hover:bg-primary/5"
+                className="glass rounded-xl p-4 card-hover"
               >
                 <h3 className="text-sm font-semibold leading-snug">
                   {guide.title}

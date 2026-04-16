@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Guide } from "@/types/database";
@@ -13,7 +13,7 @@ function getInitialView(): "list" | "grid" {
   return (localStorage.getItem("hc-view") as "list" | "grid") ?? "list";
 }
 
-export default function Windows11Page() {
+function Windows11Content() {
   const searchParams = useSearchParams();
   const initialSearch = searchParams.get("search") ?? "";
 
@@ -61,17 +61,16 @@ export default function Windows11Page() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <Link
         href="/help-center"
-        className="text-sm text-muted hover:text-foreground transition-colors"
+        className="text-sm text-muted hover:text-primary transition-colors duration-200"
       >
         &larr; Help Center
       </Link>
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between animate-fade-up">
         <h1 className="text-2xl font-bold">Windows 11 Guides</h1>
-        {/* Mobile filter toggle */}
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-          className="rounded-lg border border-border px-3 py-2 text-sm text-muted lg:hidden"
+          className="glass rounded-lg px-3 py-2 text-sm text-muted lg:hidden"
         >
           Filters
         </button>
@@ -97,18 +96,19 @@ export default function Windows11Page() {
               </button>
             </div>
           )}
-          <GuideFilters
-            filters={filters}
-            onChange={(f) => {
-              setFilters(f);
-              setMobileFiltersOpen(false);
-            }}
-          />
+          <div className="glass-strong rounded-2xl p-4">
+            <GuideFilters
+              filters={filters}
+              onChange={(f) => {
+                setFilters(f);
+                setMobileFiltersOpen(false);
+              }}
+            />
+          </div>
         </aside>
 
         {/* Content */}
         <div className="min-w-0 flex-1">
-          {/* Header bar */}
           <div className="mb-4 flex items-center justify-between">
             <p className="text-sm text-muted">
               {loading ? "Loading\u2026" : `${total} guide${total !== 1 ? "s" : ""} found`}
@@ -116,32 +116,26 @@ export default function Windows11Page() {
             <ViewToggle view={view} onChange={handleViewChange} />
           </div>
 
-          {/* Guide grid/list */}
           {loading ? (
             <div className={`${view === "grid" ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}`}>
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`animate-pulse rounded-xl border border-border bg-surface ${
+                  className={`animate-pulse glass rounded-xl ${
                     view === "grid" ? "h-56" : "h-28"
                   }`}
                 />
               ))}
             </div>
           ) : guides.length === 0 ? (
-            <div className="rounded-xl border border-border p-12 text-center">
+            <div className="glass-strong rounded-2xl p-12 text-center">
               <p className="font-medium">No guides match your filters.</p>
               <p className="mt-2 text-sm text-muted">
                 Try broadening your search or clearing filters.
               </p>
               <button
                 onClick={() =>
-                  setFilters({
-                    search: "",
-                    category: null,
-                    difficulty: null,
-                    tier: null,
-                  })
+                  setFilters({ search: "", category: null, difficulty: null, tier: null })
                 }
                 className="btn-secondary mt-4"
               >
@@ -164,5 +158,13 @@ export default function Windows11Page() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Windows11Page() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-8"><div className="h-8 w-48 animate-pulse rounded bg-surface" /></div>}>
+      <Windows11Content />
+    </Suspense>
   );
 }
