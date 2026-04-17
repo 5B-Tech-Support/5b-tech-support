@@ -11,23 +11,13 @@ import {
   getReadLimit,
   type AccessTier,
 } from "@/lib/guide-access";
+import { renderGuideContent } from "@/lib/render-guide-content";
 
 const difficultyColors: Record<string, string> = {
   beginner: "bg-success/10 text-success",
   intermediate: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
   advanced: "bg-danger/10 text-danger",
 };
-
-function renderMarkdown(md: string): string {
-  return md
-    .replace(/^## (.+)$/gm, '<h2 class="mt-8 mb-3 text-lg font-semibold">$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3 class="mt-6 mb-2 font-semibold">$1</h3>')
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\n\n/g, '</p><p class="mt-3">')
-    .replace(/\n/g, "<br/>")
-    .replace(/^/, '<p class="mt-3">')
-    .concat("</p>");
-}
 
 function AccessGate({ tier, slug }: { tier: AccessTier; slug: string }) {
   const remaining = getRemainingReads(tier);
@@ -234,8 +224,8 @@ export default function GuidePage() {
       {hasAccess ? (
         <>
           <article
-            className="glass-strong mt-8 rounded-2xl p-6 text-sm leading-relaxed sm:p-8 animate-fade-up stagger-2"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(guide.content) }}
+            className="guide-content glass-strong mt-8 rounded-2xl p-6 text-sm leading-relaxed sm:p-8 animate-fade-up stagger-2"
+            dangerouslySetInnerHTML={{ __html: renderGuideContent(guide.content) }}
           />
 
           {/* Helpful prompt */}

@@ -9,6 +9,7 @@ import {
   useState,
   type FormEvent,
 } from "react";
+import { MarkdownFormatToolbar } from "@/components/manage-content/markdown-format-toolbar";
 
 export const CATEGORIES = [
   "Performance",
@@ -99,6 +100,7 @@ export const GuideEditorForm = forwardRef<GuideEditorFormRef, GuideEditorFormPro
     const [uploadingVideo, setUploadingVideo] = useState(false);
     const [uploadingThumb, setUploadingThumb] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
       setForm(initialForm);
@@ -377,16 +379,27 @@ export const GuideEditorForm = forwardRef<GuideEditorFormRef, GuideEditorFormPro
             {uploadingVideo && <p className="mt-1 text-xs text-muted">Uploading...</p>}
           </div>
 
-          <label className="block">
-            <span className="text-sm font-medium">Written tutorial (Markdown)</span>
+          <div className="block">
+            <span className="text-sm font-medium">Written tutorial</span>
+            <p className="mt-0.5 text-xs text-muted">
+              Use the toolbar for bold, lists, links, and fonts. Separate paragraphs with a blank
+              line. Italic uses underscores—avoid them inside words like{" "}
+              <code className="text-foreground">file_name</code> or it may format oddly.
+            </p>
+            <MarkdownFormatToolbar
+              textareaRef={contentTextareaRef}
+              value={form.content}
+              onChange={(content) => setForm((f) => ({ ...f, content }))}
+            />
             <textarea
+              ref={contentTextareaRef}
               rows={variant === "page" ? 16 : 12}
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="mt-1 block w-full rounded-xl border border-border bg-background px-4 py-2.5 font-mono text-sm focus:border-primary focus:ring-1 focus:ring-primary"
-              placeholder="## Step 1: ..."
+              className="mt-2 block w-full rounded-xl border border-border bg-background px-4 py-2.5 font-mono text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+              placeholder={"## Step 1\n\nYour steps here. Use toolbar or type **bold**, _italic_, [label](https://...), etc."}
             />
-          </label>
+          </div>
 
           <label className="flex items-center gap-2 text-sm">
             <input
