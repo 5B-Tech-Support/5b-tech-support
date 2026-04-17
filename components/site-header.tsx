@@ -14,8 +14,10 @@ async function getUser(): Promise<User | null> {
 
 export async function SiteHeader({
   isProExperience = false,
+  isAdmin = false,
 }: {
   isProExperience?: boolean;
+  isAdmin?: boolean;
 }) {
   const user = await getUser();
 
@@ -29,7 +31,14 @@ export async function SiteHeader({
           <span className="font-mono text-xs font-medium tracking-wider text-muted">
             TECH SUPPORT
           </span>
-          {isProExperience ? (
+          {isAdmin ? (
+            <span
+              className="pro-logo-pro ml-0.5 font-mono text-[0.65rem] font-extrabold leading-none tracking-[0.18em] sm:text-xs"
+              aria-label="Administrator"
+            >
+              ADMIN
+            </span>
+          ) : isProExperience ? (
             <span
               className="pro-logo-pro ml-0.5 font-mono text-[0.65rem] font-extrabold leading-none tracking-[0.18em] sm:text-xs"
               aria-label="Pro member"
@@ -54,6 +63,14 @@ export async function SiteHeader({
               <Link href="/support/tickets" className="text-muted hover:text-primary transition-colors duration-200">
                 Support
               </Link>
+              {isAdmin && (
+                <Link
+                  href="/manage-content"
+                  className="text-muted hover:text-primary transition-colors duration-200"
+                >
+                  Manage Content
+                </Link>
+              )}
               <Link href="/billing" className="text-muted hover:text-primary transition-colors duration-200">
                 Billing
               </Link>

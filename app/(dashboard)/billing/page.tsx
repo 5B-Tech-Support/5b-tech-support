@@ -37,6 +37,15 @@ export default async function BillingPage() {
     subscription as Subscription | null
   );
 
+  const p = profile as Profile;
+  const planTitleWord =
+    p.role === "admin" &&
+    (entitlements.isComplimentaryPro ||
+      entitlements.hasActiveSubscription ||
+      entitlements.tier === "pro")
+      ? "Admin"
+      : "Pro";
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-2xl font-bold">Billing</h1>
@@ -47,7 +56,7 @@ export default async function BillingPage() {
         {entitlements.isComplimentaryPro || entitlements.hasActiveSubscription ? (
           <div className="mt-3">
             <p className="text-sm">
-              <span className="font-medium">Pro</span> &mdash; active subscription
+              <span className="font-medium">{planTitleWord}</span> &mdash; active subscription
             </p>
             {entitlements.hasActiveSubscription &&
               (subscription as Subscription)?.current_period_end && (

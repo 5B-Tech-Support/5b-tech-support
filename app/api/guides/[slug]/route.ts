@@ -13,6 +13,7 @@ export async function GET(
       .select("*")
       .eq("slug", slug)
       .eq("is_published", true)
+      .is("deleted_at", null)
       .single();
 
     if (error || !guide) {
@@ -23,6 +24,7 @@ export async function GET(
       .from("guides")
       .select("slug, title, description, category, estimated_minutes, difficulty, tier_required, thumbnail_url")
       .eq("is_published", true)
+      .is("deleted_at", null)
       .eq("category", guide.category)
       .neq("slug", slug)
       .limit(3);

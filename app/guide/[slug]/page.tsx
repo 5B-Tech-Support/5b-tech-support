@@ -201,6 +201,19 @@ export default function GuidePage() {
         <p className="mt-2 text-muted">{guide.description}</p>
       </div>
 
+      {hasAccess && guide.video_url && (
+        <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-black shadow-lg animate-fade-up stagger-1">
+          <video
+            src={guide.video_url}
+            controls
+            playsInline
+            className="aspect-video w-full max-h-[min(70vh,560px)] object-contain"
+          >
+            Your browser does not support embedded video.
+          </video>
+        </div>
+      )}
+
       {accessTier !== "anon" && (
         <div className="mt-4 flex gap-3 animate-fade-up stagger-1">
           <button

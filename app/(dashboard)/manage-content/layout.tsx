@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
-export default async function AdminGuidesLegacyPage() {
+export const metadata: Metadata = { title: "Manage Content" };
+
+export default async function ManageContentLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -15,6 +22,7 @@ export default async function AdminGuidesLegacyPage() {
     .eq("user_id", user.id)
     .single();
 
-  if (profile?.role === "admin") redirect("/manage-content");
-  redirect("/dashboard");
+  if (profile?.role !== "admin") redirect("/dashboard");
+
+  return <>{children}</>;
 }

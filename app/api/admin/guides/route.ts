@@ -1,25 +1,10 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-
-async function requireAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabaseAdmin
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single();
-
-  if (!profile || !["admin", "super_admin"].includes(profile.role)) return null;
-  return user;
-}
+import { requireAdminUser } from "@/lib/require-admin";
 
 export async function GET(request: Request) {
   try {
-    const admin = await requireAdmin();
+    const admin = await requireAdminUser();
     if (!admin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -28,12 +13,24 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get("page") ?? "1", 10);
     const limit = Math.min(parseInt(searchParams.get("limit") ?? "50", 10), 100);
     const offset = (page - 1) * limit;
+    const tab = searchParams.get("tab") ?? "all";
 
-    const { data: guides, count } = await supabaseAdmin
+    let query = supabaseAdmin
       .from("guides")
       .select("*", { count: "exact" })
-      .order("created_at", { ascending: false })
-      .range(offset, offset + limit - 1);
+      .order("updated_at", { ascending: false });
+
+    if (tab === "published") {
+      query = query.eq("is_published", true).is("deleted_at", null);
+    } else if (tab === "drafts") {
+      query = query.eq("is_published", false).is("deleted_at", null);
+    } else if (tab === "deleted") {
+      query = query.not("deleted_at", "is", null);
+    } else {
+      query = query.is("deleted_at", null);
+    }
+
+    const { data: guides, count } = await query.range(offset, offset + limit - 1);
 
     return NextResponse.json({
       guides: guides ?? [],
@@ -49,17 +46,28 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const admin = await requireAdmin();
+    const admin = await requireAdminUser();
     if (!admin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const body = await request.json();
 
-    const slug = body.slug || body.title
-      ?.toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
+    const slugFromField =
+      typeof body.slug === "string" && body.slug.trim()
+        ? body.slug
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "")
+        : "";
+
+    const slug =
+      slugFromField ||
+      (body.title ?? "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
 
     if (!body.title || !body.description || !body.category) {
       return NextResponse.json(
@@ -82,6 +90,7 @@ export async function POST(request: Request) {
         thumbnail_url: body.thumbnail_url ?? null,
         content: body.content ?? "",
         is_published: body.is_published ?? false,
+        video_url: body.video_url ?? null,
       })
       .select()
       .single();

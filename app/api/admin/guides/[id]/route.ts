@@ -1,28 +1,13 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-
-async function requireAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabaseAdmin
-    .from("profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single();
-
-  if (!profile || !["admin", "super_admin"].includes(profile.role)) return null;
-  return user;
-}
+import { requireAdminUser } from "@/lib/require-admin";
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const admin = await requireAdmin();
+    const admin = await requireAdminUser();
     if (!admin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -52,7 +37,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const admin = await requireAdmin();
+    const admin = await requireAdminUser();
     if (!admin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -61,10 +46,19 @@ export async function PATCH(
     const body = await request.json();
 
     const allowedFields: Record<string, boolean> = {
-      slug: true, title: true, description: true, category: true,
-      os_type: true, tier_required: true, difficulty: true,
-      estimated_minutes: true, thumbnail_url: true, content: true,
+      slug: true,
+      title: true,
+      description: true,
+      category: true,
+      os_type: true,
+      tier_required: true,
+      difficulty: true,
+      estimated_minutes: true,
+      thumbnail_url: true,
+      content: true,
       is_published: true,
+      video_url: true,
+      deleted_at: true,
     };
 
     const updates: Record<string, unknown> = {};
@@ -101,7 +95,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const admin = await requireAdmin();
+    const admin = await requireAdminUser();
     if (!admin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -109,14 +103,15 @@ export async function DELETE(
     const { id } = await params;
     const { error } = await supabaseAdmin
       .from("guides")
-      .delete()
-      .eq("id", id);
+      .update({ deleted_at: new Date().toISOString() })
+      .eq("id", id)
+      .is("deleted_at", null);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ message: "Guide deleted" });
+    return NextResponse.json({ message: "Guide moved to deleted" });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Internal server error" },

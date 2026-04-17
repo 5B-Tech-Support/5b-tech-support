@@ -90,12 +90,8 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Admin route protection
-  if (
-    pathname.startsWith(ADMIN_PREFIX) &&
-    profile.role !== "admin" &&
-    profile.role !== "super_admin"
-  ) {
+  // Admin route protection (admin role only)
+  if (pathname.startsWith(ADMIN_PREFIX) && profile.role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

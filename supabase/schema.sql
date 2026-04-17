@@ -150,8 +150,10 @@ CREATE TABLE guides (
   difficulty         text NOT NULL DEFAULT 'beginner',
   estimated_minutes  int NOT NULL DEFAULT 5,
   thumbnail_url      text,
+  video_url          text,
   content            text NOT NULL DEFAULT '',
   is_published       boolean NOT NULL DEFAULT false,
+  deleted_at         timestamptz,
   created_at         timestamptz NOT NULL DEFAULT now(),
   updated_at         timestamptz NOT NULL DEFAULT now()
 );

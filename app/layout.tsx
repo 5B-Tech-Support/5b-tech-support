@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { userHasProExperience } from "@/lib/pro-theme";
+import { userIsAdmin } from "@/lib/require-admin";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const isProExperience = await userHasProExperience();
+  const isAdmin = await userIsAdmin();
 
   return (
     <html
@@ -37,7 +39,7 @@ export default async function RootLayout({
       data-pro={isProExperience ? "true" : undefined}
     >
       <body className="flex min-h-full flex-col">
-        <SiteHeader isProExperience={isProExperience} />
+        <SiteHeader isProExperience={isProExperience} isAdmin={isAdmin} />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

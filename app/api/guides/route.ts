@@ -17,7 +17,8 @@ export async function GET(request: Request) {
       .from("guides")
       .select("id, slug, title, description, category, os_type, tier_required, difficulty, estimated_minutes, thumbnail_url, is_published, created_at, updated_at", { count: "exact" })
       .eq("is_published", true)
-      .eq("os_type", os);
+      .eq("os_type", os)
+      .is("deleted_at", null);
 
     if (search) {
       query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);

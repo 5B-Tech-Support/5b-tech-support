@@ -103,8 +103,11 @@ export interface Guide {
   difficulty: GuideDifficulty;
   estimated_minutes: number;
   thumbnail_url: string | null;
+  /** Optional tutorial video (public URL after upload). */
+  video_url?: string | null;
   content: string;
   is_published: boolean;
+  deleted_at?: string | null;
   created_at: string;
   updated_at: string;
 }
