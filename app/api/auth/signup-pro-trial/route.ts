@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createOrFetchProfile, logAudit } from "@/lib/auth-helpers";
+import {
+  createOrFetchProfile,
+  displayNameFromSignupFullName,
+  logAudit,
+} from "@/lib/auth-helpers";
 
 export async function POST(request: Request) {
   try {
@@ -28,6 +32,7 @@ export async function POST(request: Request) {
       const profile = await createOrFetchProfile(data.user.id, email, {
         tier: "pro",
         trialDays: 30,
+        full_name: displayNameFromSignupFullName(full_name),
       });
       await logAudit(data.user.id, "signup_pro_trial", {
         tier: "pro",
