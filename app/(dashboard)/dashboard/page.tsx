@@ -144,18 +144,18 @@ export default async function DashboardPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="group glass-strong card-hover flex aspect-square flex-col items-center justify-center rounded-2xl p-4 text-center transition-transform duration-300 hover:-translate-y-0.5 sm:p-5"
+              className="group glass-strong card-hover flex aspect-[3/2] flex-col items-center justify-center rounded-2xl px-3 py-3 text-center transition-transform duration-300 hover:-translate-y-0.5 sm:px-4 sm:py-3.5"
               style={{ boxShadow: "var(--glow-sm)" }}
             >
               <span
-                className="flex h-12 w-12 items-center justify-center rounded-xl text-2xl transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14 sm:text-[1.75rem]"
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-xl transition-transform duration-300 group-hover:scale-110 sm:h-11 sm:w-11 sm:text-2xl"
                 style={{ background: "var(--card-gradient)" }}
                 aria-hidden
               >
                 {item.emoji}
               </span>
-              <span className="mt-3 text-sm font-semibold text-foreground sm:text-base">{item.title}</span>
-              <span className="mt-1 line-clamp-2 text-xs text-muted sm:text-sm">{item.hint}</span>
+              <span className="mt-2 text-sm font-semibold text-foreground sm:text-base">{item.title}</span>
+              <span className="mt-0.5 line-clamp-2 text-xs text-muted sm:text-sm">{item.hint}</span>
             </Link>
           ))}
         </div>
