@@ -22,16 +22,16 @@ export async function SiteHeader({
   return (
     <header className="glass-strong sticky top-0 z-40 rounded-b-2xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link
-          href="/"
-          className="group flex flex-wrap items-baseline gap-x-1.5 gap-y-0 sm:flex-nowrap"
-        >
-          <span className="text-xl font-extrabold tracking-tight gradient-text transition-transform duration-300 group-hover:scale-[1.02]">
-            5B Tech Support
+        <Link href="/" className="group flex items-baseline gap-1.5">
+          <span className="text-xl font-extrabold gradient-text transition-transform duration-300 group-hover:scale-105">
+            5B
+          </span>
+          <span className="font-mono text-xs font-medium tracking-wider text-muted">
+            TECH SUPPORT
           </span>
           {isProExperience ? (
             <span
-              className="pro-logo-pro font-mono text-[0.65rem] font-extrabold leading-none tracking-[0.2em] sm:text-xs"
+              className="pro-logo-pro ml-0.5 font-mono text-[0.65rem] font-extrabold leading-none tracking-[0.18em] sm:text-xs"
               aria-label="Pro member"
             >
               PRO
