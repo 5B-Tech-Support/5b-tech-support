@@ -101,7 +101,7 @@ export function GuideFilters({ filters, onChange, showSearch = true }: GuideFilt
     filters.search || filters.category || filters.difficulty || filters.tier;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {showSearch && (
         <div>
           <div className="relative">
