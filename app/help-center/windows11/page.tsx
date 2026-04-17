@@ -137,7 +137,7 @@ function Windows11Content() {
           />
           <div className="flex min-w-0 items-center justify-between gap-3">
             <p className="text-sm text-muted tabular-nums">
-              {loading ? "Loading\u2026" : `${total} guide${total !== 1 ? "s" : ""} found`}
+              {loading ? "Loading..." : `${total} guide${total !== 1 ? "s" : ""} found`}
             </p>
             <ViewToggle view={view} onChange={handleViewChange} />
           </div>

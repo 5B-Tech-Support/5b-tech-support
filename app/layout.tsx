@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { userHasProExperience } from "@/lib/pro-theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,18 +23,21 @@ export const metadata: Metadata = {
   description: "Guided tech support for everyday Windows issues",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isProExperience = await userHasProExperience();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      data-pro={isProExperience ? "true" : undefined}
     >
-      <body className="min-h-full flex flex-col">
-        <SiteHeader />
+      <body className="flex min-h-full flex-col">
+        <SiteHeader isProExperience={isProExperience} />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

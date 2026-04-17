@@ -48,7 +48,7 @@ export function BillingOverviewClient({
           disabled={loading}
           className="btn-primary inline-flex"
         >
-          {loading ? "Opening\u2026" : "Manage Subscription"}
+          {loading ? "Opening..." : "Manage Subscription"}
         </button>
       </div>
     );

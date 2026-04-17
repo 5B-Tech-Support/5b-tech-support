@@ -76,7 +76,7 @@ export function AuthForm({
             disabled={loading}
             className="btn-primary w-full py-3"
           >
-            {loading ? "Please wait\u2026" : submitLabel}
+            {loading ? "Please wait..." : submitLabel}
           </button>
         </form>
 

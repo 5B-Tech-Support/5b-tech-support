@@ -257,7 +257,7 @@ export default function AdminGuidesPage() {
 
             <div className="mt-6 flex gap-3">
               <button type="submit" disabled={saving} className="btn-primary">
-                {saving ? "Saving\u2026" : editingId ? "Save Changes" : "Create Guide"}
+                {saving ? "Saving..." : editingId ? "Save Changes" : "Create Guide"}
               </button>
               <button
                 type="button"

@@ -196,7 +196,7 @@ function VerifyForm() {
                 disabled={loading || code.join("").length !== 6}
                 className="btn-primary mt-6 w-full py-3"
               >
-                {loading ? "Verifying…" : "Verify Email"}
+                {loading ? "Verifying..." : "Verify Email"}
               </button>
             </form>
 

@@ -65,7 +65,7 @@ export function GuideSearchBar({
       </svg>
       <input
         type="search"
-        placeholder="Search guides\u2026"
+        placeholder="Search guides"
         value={searchInput}
         onChange={(e) => handleSearchChange(e.target.value)}
         className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-3 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
@@ -120,7 +120,7 @@ export function GuideFilters({ filters, onChange, showSearch = true }: GuideFilt
             </svg>
             <input
               type="search"
-              placeholder="Search guides\u2026"
+              placeholder="Search guides"
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-2.5 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"

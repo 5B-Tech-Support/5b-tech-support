@@ -12,19 +12,31 @@ async function getUser(): Promise<User | null> {
   }
 }
 
-export async function SiteHeader() {
+export async function SiteHeader({
+  isProExperience = false,
+}: {
+  isProExperience?: boolean;
+}) {
   const user = await getUser();
 
   return (
     <header className="glass-strong sticky top-0 z-40 rounded-b-2xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-baseline gap-1.5 group">
-          <span className="text-xl font-extrabold gradient-text transition-transform duration-300 group-hover:scale-105">
-            5B
+        <Link
+          href="/"
+          className="group flex flex-wrap items-baseline gap-x-1.5 gap-y-0 sm:flex-nowrap"
+        >
+          <span className="text-xl font-extrabold tracking-tight gradient-text transition-transform duration-300 group-hover:scale-[1.02]">
+            5B Tech Support
           </span>
-          <span className="font-mono text-xs font-medium tracking-wider text-muted">
-            TECH SUPPORT
-          </span>
+          {isProExperience ? (
+            <span
+              className="pro-logo-pro font-mono text-[0.65rem] font-extrabold leading-none tracking-[0.2em] sm:text-xs"
+              aria-label="Pro member"
+            >
+              PRO
+            </span>
+          ) : null}
         </Link>
 
         <nav className="flex items-center gap-5 text-sm">

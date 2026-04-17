@@ -131,7 +131,7 @@ function VerifyBillingContent() {
               disabled={loading || !email || cooldown > 0}
               className="btn-primary w-full py-3"
             >
-              {loading ? "Sending\u2026" : cooldown > 0 ? `Resend in ${cooldown}s` : "Send verification code"}
+              {loading ? "Sending..." : cooldown > 0 ? `Resend in ${cooldown}s` : "Send verification code"}
             </button>
           </div>
         ) : (
@@ -164,7 +164,7 @@ function VerifyBillingContent() {
               ))}
             </div>
             <button type="submit" disabled={loading} className="btn-primary mt-6 w-full py-3">
-              {loading ? "Verifying\u2026" : "Verify and continue"}
+              {loading ? "Verifying..." : "Verify and continue"}
             </button>
             <button
               type="button"
@@ -187,7 +187,7 @@ function VerifyBillingContent() {
 
 export default function BillingVerifyPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-md px-4 py-16 animate-pulse">Loading\u2026</div>}>
+    <Suspense fallback={<div className="mx-auto max-w-md px-4 py-16 animate-pulse">Loading...</div>}>
       <VerifyBillingContent />
     </Suspense>
   );

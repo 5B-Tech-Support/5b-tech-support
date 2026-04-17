@@ -84,7 +84,7 @@ export function BillingManageClient({
           disabled={loading !== null}
           className="btn-primary"
         >
-          {loading === "portal" ? "Opening\u2026" : "Manage subscription in Stripe"}
+          {loading === "portal" ? "Opening..." : "Manage subscription in Stripe"}
         </button>
         <p className="text-xs text-muted">
           Update your card, view invoices, or cancel from the secure billing portal.
@@ -110,7 +110,7 @@ export function BillingManageClient({
               disabled={loading !== null}
               className="btn-primary"
             >
-              {loading === "trial" ? "Starting\u2026" : "Activate 1-month free trial"}
+              {loading === "trial" ? "Starting..." : "Activate 1-month free trial"}
             </button>
             <button
               type="button"
@@ -118,7 +118,7 @@ export function BillingManageClient({
               disabled={loading !== null}
               className="btn-secondary"
             >
-              {loading === "checkout" ? "Redirecting\u2026" : "Subscribe with card"}
+              {loading === "checkout" ? "Redirecting..." : "Subscribe with card"}
             </button>
           </div>
         </div>
@@ -136,7 +136,7 @@ export function BillingManageClient({
             disabled={loading !== null}
             className="btn-primary mt-4"
           >
-            {loading === "checkout" ? "Redirecting\u2026" : "Add card and subscribe"}
+            {loading === "checkout" ? "Redirecting..." : "Add card and subscribe"}
           </button>
         </div>
       )}

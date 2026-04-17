@@ -212,7 +212,7 @@ export default function GuidePage() {
                 : "text-muted hover:text-foreground hover:border-primary/40"
             }`}
           >
-            {saving ? "Saving\u2026" : saved ? "Saved \u2713" : "Save this guide"}
+            {saving ? "Saving..." : saved ? "Saved" : "Save this guide"}
           </button>
         </div>
       )}
