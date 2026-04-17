@@ -35,7 +35,11 @@ export function BillingOverviewClient({
   }
 
   if (isComplimentaryPro) {
-    return null;
+    return (
+      <p className="mt-4 text-xs text-muted">
+        You have full Pro access, including all guides and priority support.
+      </p>
+    );
   }
 
   if (hasActiveSubscription) {

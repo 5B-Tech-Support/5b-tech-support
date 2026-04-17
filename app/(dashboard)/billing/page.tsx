@@ -44,12 +44,23 @@ export default async function BillingPage() {
       <div className="mt-8 rounded-xl border border-border p-6">
         <h2 className="font-semibold">Current Plan</h2>
 
-        {entitlements.isComplimentaryPro ? (
+        {entitlements.isComplimentaryPro || entitlements.hasActiveSubscription ? (
           <div className="mt-3">
             <p className="text-sm">
-              <span className="font-medium">Complimentary Pro</span>
-              &nbsp;&mdash; full access at no charge. Thank you for being part of 5B Tech Support.
+              <span className="font-medium">Pro</span> &mdash; active subscription
             </p>
+            {entitlements.hasActiveSubscription &&
+              (subscription as Subscription)?.current_period_end && (
+                <p className="mt-1 text-xs text-muted">
+                  Next billing date:{" "}
+                  {new Date((subscription as Subscription).current_period_end!).toLocaleDateString()}
+                </p>
+              )}
+            <BillingOverviewClient
+              isComplimentaryPro={entitlements.isComplimentaryPro}
+              hasActiveSubscription={entitlements.hasActiveSubscription}
+              isTrialActive={false}
+            />
           </div>
         ) : entitlements.isTrialActive && profile.trial_expires_at ? (
           <div className="mt-3">
@@ -65,23 +76,6 @@ export default async function BillingPage() {
               isComplimentaryPro={false}
               hasActiveSubscription={false}
               isTrialActive
-            />
-          </div>
-        ) : entitlements.hasActiveSubscription ? (
-          <div className="mt-3">
-            <p className="text-sm">
-              <span className="font-medium">Pro</span> &mdash; active subscription
-            </p>
-            {(subscription as Subscription)?.current_period_end && (
-              <p className="mt-1 text-xs text-muted">
-                Next billing date:{" "}
-                {new Date((subscription as Subscription).current_period_end!).toLocaleDateString()}
-              </p>
-            )}
-            <BillingOverviewClient
-              isComplimentaryPro={false}
-              hasActiveSubscription
-              isTrialActive={false}
             />
           </div>
         ) : (

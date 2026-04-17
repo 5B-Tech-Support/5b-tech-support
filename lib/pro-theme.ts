@@ -3,7 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getEntitlements } from "@/lib/entitlements";
 import type { Profile, Subscription } from "@/types/database";
 
-/** True when the signed-in user should see Pro premium UI (trial, subscription, or complimentary). */
+/** True when the signed-in user should see Pro premium UI (trial, subscription, or full Pro access). */
 export async function userHasProExperience(): Promise<boolean> {
   try {
     const supabase = await createClient();

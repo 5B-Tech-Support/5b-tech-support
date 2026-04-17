@@ -7,6 +7,6 @@ export interface Entitlements {
   isTrialActive: boolean;
   isTrialExpired: boolean;
   hasActiveSubscription: boolean;
-  /** Lifetime / staff complimentary Pro — not Stripe */
+  /** Internal: full Pro without Stripe (UI treats as Pro) */
   isComplimentaryPro: boolean;
 }

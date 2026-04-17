@@ -37,7 +37,7 @@ export async function POST() {
     const p = profile as Profile;
     if (p.is_complimentary_pro) {
       return NextResponse.json(
-        { error: "Complimentary accounts do not need a trial." },
+        { error: "You already have full Pro access." },
         { status: 400 }
       );
     }

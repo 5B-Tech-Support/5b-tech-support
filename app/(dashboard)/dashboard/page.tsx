@@ -52,15 +52,12 @@ export default async function DashboardPage() {
 
   const firstName = profile.full_name?.split(" ")[0] ?? "there";
 
-  const planLabel = entitlements.isComplimentaryPro
-    ? "Complimentary Pro"
-    : entitlements.hasActiveSubscription
-      ? "Pro (subscribed)"
+  const planLabel =
+    entitlements.tier === "free"
+      ? "Free"
       : entitlements.isTrialActive
         ? "Pro trial"
-        : entitlements.tier === "pro"
-          ? "Pro"
-          : "Free";
+        : "Pro";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">

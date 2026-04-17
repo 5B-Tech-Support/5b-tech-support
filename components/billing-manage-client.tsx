@@ -68,9 +68,11 @@ export function BillingManageClient({
 
   if (isComplimentaryPro) {
     return (
-      <p className="text-sm text-muted">
-        Your account includes complimentary Pro access. No payment or trial setup is required.
-      </p>
+      <div className="space-y-3">
+        <p className="text-xs text-muted">
+          You have full Pro access. Update your profile anytime from Settings.
+        </p>
+      </div>
     );
   }
 
