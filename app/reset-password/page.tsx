@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AuthForm, Input } from "@/components/auth-form";
+import { AuthForm, PasswordInput } from "@/components/auth-form";
 
 export default function ResetPasswordPage() {
   return (
@@ -29,8 +29,8 @@ export default function ResetPasswordPage() {
         </Link>
       }
     >
-      <Input label="New password" name="password" type="password" required minLength={6} autoComplete="new-password" />
-      <Input label="Confirm new password" name="confirm_password" type="password" required minLength={6} autoComplete="new-password" />
+      <PasswordInput label="New password" name="password" required minLength={6} autoComplete="new-password" />
+      <PasswordInput label="Confirm new password" name="confirm_password" required minLength={6} autoComplete="new-password" />
     </AuthForm>
   );
 }
