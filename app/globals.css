@@ -269,56 +269,72 @@ html[data-pro="true"] {
   --glow-lg: 0 10px 52px rgba(212, 168, 83, 0.12);
 }
 
-/* Pro primary buttons: soft champagne gold only (no purple) */
+/* Pro primary buttons: vibrant gold + subtle shimmer (no purple) */
 html[data-pro="true"] .btn-primary {
   background: linear-gradient(
-    165deg,
-    #faf6eb 0%,
-    #ebe1cc 28%,
-    #dfd2b4 55%,
-    #d3c49e 100%
+    105deg,
+    #92400e,
+    #b45309,
+    #d97706,
+    #f59e0b,
+    #fbbf24,
+    #fde047,
+    #fbbf24,
+    #f59e0b,
+    #d97706,
+    #b45309
   );
-  color: #2a2318;
-  box-shadow: 0 4px 18px rgba(140, 110, 50, 0.16);
+  background-size: 220% auto;
+  animation: pro-shimmer 5.5s ease-in-out infinite;
+  color: #171717;
+  box-shadow: 0 4px 22px rgba(217, 119, 6, 0.38), 0 0 28px rgba(251, 191, 36, 0.22);
 }
 
 html[data-pro="true"] .btn-primary:hover {
-  background: linear-gradient(
-    165deg,
-    #fffdf8 0%,
-    #f2ead8 30%,
-    #e5d8c0 60%,
-    #dac9a8 100%
-  );
-  color: #1f1a12;
-  box-shadow: 0 6px 26px rgba(140, 110, 50, 0.2);
+  color: #0a0a0a;
+  box-shadow: 0 6px 32px rgba(217, 119, 6, 0.45), 0 0 40px rgba(253, 224, 71, 0.28);
+  filter: brightness(1.04);
 }
 
 html[data-pro="true"] .btn-primary:active {
-  box-shadow: 0 2px 12px rgba(140, 110, 50, 0.14);
+  box-shadow: 0 2px 14px rgba(180, 83, 9, 0.35);
+  filter: brightness(0.98);
+}
+
+html[data-pro="true"] .btn-primary:disabled {
+  animation: none;
+  filter: none;
+  box-shadow: none;
 }
 
 @media (prefers-color-scheme: dark) {
   html[data-pro="true"] .btn-primary {
     background: linear-gradient(
-      165deg,
-      #4a3f2a 0%,
-      #5c4d36 35%,
-      #6e5d42 70%,
-      #7a6848 100%
+      105deg,
+      #431407,
+      #78350f,
+      #b45309,
+      #d97706,
+      #fbbf24,
+      #fde68a,
+      #fbbf24,
+      #d97706,
+      #b45309,
+      #92400e
     );
-    color: #faf6ea;
-    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35), 0 0 32px rgba(212, 168, 83, 0.1);
+    background-size: 220% auto;
+    animation: pro-shimmer 5.5s ease-in-out infinite;
+    color: #fffbeb;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), 0 0 36px rgba(251, 191, 36, 0.18);
   }
 
   html[data-pro="true"] .btn-primary:hover {
-    background: linear-gradient(
-      165deg,
-      #5a4d38 0%,
-      #6d5c44 40%,
-      #7f6e50 100%
-    );
-    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4), 0 0 36px rgba(230, 200, 120, 0.12);
+    box-shadow: 0 6px 34px rgba(0, 0, 0, 0.5), 0 0 44px rgba(253, 224, 71, 0.22);
+    filter: brightness(1.06);
+  }
+
+  html[data-pro="true"] .btn-primary:active {
+    filter: brightness(0.96);
   }
 }
 
@@ -466,6 +482,12 @@ html[data-pro="true"] select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html[data-pro="true"] .btn-primary {
+    animation: none;
+    background: linear-gradient(135deg, #d97706, #f59e0b, #fbbf24);
+    background-size: 100% 100%;
+  }
+
   .pro-logo-pro {
     animation: none;
     background: linear-gradient(105deg, #b8860b, #e8c547, #b8860b);
@@ -475,5 +497,11 @@ html[data-pro="true"] select:focus {
   html[data-pro="true"] header.glass-strong::after {
     animation: none;
     opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (prefers-color-scheme: dark) {
+  html[data-pro="true"] .btn-primary {
+    background: linear-gradient(135deg, #b45309, #d97706, #fbbf24);
   }
 }
