@@ -40,7 +40,7 @@ export async function SiteHeader() {
                 Saved Guides
               </Link>
               <Link href="/support/tickets" className="text-muted hover:text-primary transition-colors duration-200">
-                Tickets
+                Support
               </Link>
               <Link href="/billing" className="text-muted hover:text-primary transition-colors duration-200">
                 Billing

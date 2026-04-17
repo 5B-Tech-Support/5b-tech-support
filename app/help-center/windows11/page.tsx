@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useState, useCallback, Suspense } from "react";
+import { useEffect, useState, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Guide } from "@/types/database";
 import { GuideCard } from "@/components/help-center/guide-card";
-import { GuideFilters, type FilterState } from "@/components/help-center/guide-filters";
+import {
+  GuideFilters,
+  GuideSearchBar,
+  type FilterState,
+} from "@/components/help-center/guide-filters";
 import { ViewToggle } from "@/components/help-center/view-toggle";
 
 function getInitialView(): "list" | "grid" {
@@ -28,6 +32,8 @@ function Windows11Content() {
     difficulty: null,
     tier: null,
   });
+  const [sidebarTopOffset, setSidebarTopOffset] = useState(0);
+  const mainTopRef = useRef<HTMLDivElement>(null);
 
   const fetchGuides = useCallback(async (f: FilterState) => {
     setLoading(true);
@@ -51,6 +57,19 @@ function Windows11Content() {
   useEffect(() => {
     fetchGuides(filters);
   }, [filters, fetchGuides]);
+
+  useEffect(() => {
+    const el = mainTopRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+
+    const ro = new ResizeObserver(() => {
+      setSidebarTopOffset(el.offsetHeight);
+    });
+    ro.observe(el);
+    setSidebarTopOffset(el.offsetHeight);
+
+    return () => ro.disconnect();
+  }, [filters.search, loading, guides.length, view]);
 
   function handleViewChange(v: "list" | "grid") {
     setView(v);
@@ -76,8 +95,8 @@ function Windows11Content() {
         </button>
       </div>
 
-      <div className="mt-6 flex gap-8">
-        {/* Sidebar */}
+      <div className="mt-6 flex gap-8 items-start">
+        {/* Sidebar — desktop: offset so filter card aligns with first guide row */}
         <aside
           className={`shrink-0 transition-all duration-300 ${
             mobileFiltersOpen
@@ -96,8 +115,16 @@ function Windows11Content() {
               </button>
             </div>
           )}
-          <div className="glass-strong rounded-2xl p-4">
+          <div
+            className="glass-strong rounded-2xl p-4 lg:transition-[margin] lg:duration-200"
+            style={
+              mobileFiltersOpen
+                ? undefined
+                : { marginTop: sidebarTopOffset > 0 ? `${sidebarTopOffset}px` : undefined }
+            }
+          >
             <GuideFilters
+              showSearch={false}
               filters={filters}
               onChange={(f) => {
                 setFilters(f);
@@ -109,11 +136,17 @@ function Windows11Content() {
 
         {/* Content */}
         <div className="min-w-0 flex-1">
-          <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm text-muted">
-              {loading ? "Loading\u2026" : `${total} guide${total !== 1 ? "s" : ""} found`}
-            </p>
-            <ViewToggle view={view} onChange={handleViewChange} />
+          <div ref={mainTopRef}>
+            <GuideSearchBar
+              search={filters.search}
+              onSearchChange={(search) => setFilters((prev) => ({ ...prev, search }))}
+            />
+            <div className="mt-4 mb-4 flex items-center justify-between">
+              <p className="text-sm text-muted">
+                {loading ? "Loading\u2026" : `${total} guide${total !== 1 ? "s" : ""} found`}
+              </p>
+              <ViewToggle view={view} onChange={handleViewChange} />
+            </div>
           </div>
 
           {loading ? (

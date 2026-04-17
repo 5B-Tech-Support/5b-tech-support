@@ -20,15 +20,26 @@ export interface Profile {
   email: string;
   full_name: string | null;
   role: UserRole;
-  tier: UserTier;
+  /** Stored tier from DB (may include legacy values outside UserTier) */
+  tier: string;
   account_status: AccountStatus;
   support_priority: SupportPriority;
   stripe_customer_id: string | null;
   trial_expires_at: string | null;
+  /** Set when a Pro trial first starts (signup or billing); retained after expiry. */
+  pro_trial_started_at?: string | null;
+  is_complimentary_pro?: boolean;
   onboarding_completed: boolean;
   notifications_enabled: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface BillingAccessGrant {
+  id: string;
+  user_id: string;
+  expires_at: string;
+  created_at: string;
 }
 
 export interface Subscription {

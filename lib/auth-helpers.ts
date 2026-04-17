@@ -24,6 +24,9 @@ export async function createOrFetchProfile(
       ? new Date(Date.now() + options.trialDays * 24 * 60 * 60 * 1000).toISOString()
       : null;
 
+  const proTrialStartedAt =
+    trialExpiresAt && options.tier === "pro" ? new Date().toISOString() : null;
+
   const { data: created, error } = await supabaseAdmin
     .from("profiles")
     .insert({
@@ -33,6 +36,7 @@ export async function createOrFetchProfile(
       account_status: "email_unverified",
       support_priority: options.tier === "pro" ? "standard" : "none",
       trial_expires_at: trialExpiresAt,
+      pro_trial_started_at: proTrialStartedAt,
     })
     .select()
     .single();

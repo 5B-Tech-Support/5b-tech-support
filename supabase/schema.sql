@@ -41,6 +41,8 @@ CREATE TABLE profiles (
   support_priority   support_priority NOT NULL DEFAULT 'none',
   stripe_customer_id text UNIQUE,
   trial_expires_at   timestamptz,
+  pro_trial_started_at timestamptz,
+  is_complimentary_pro boolean NOT NULL DEFAULT false,
   onboarding_completed boolean NOT NULL DEFAULT false,
   notifications_enabled boolean NOT NULL DEFAULT true,
   created_at         timestamptz NOT NULL DEFAULT now(),
@@ -189,6 +191,17 @@ CREATE TABLE audit_log (
 
 CREATE INDEX idx_audit_user_action ON audit_log(user_id, action);
 CREATE INDEX idx_audit_created ON audit_log(created_at);
+
+-- 10. billing_access_grants (short-lived unlock after email OTP on billing)
+CREATE TABLE billing_access_grants (
+  id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    uuid NOT NULL REFERENCES profiles(user_id) ON DELETE CASCADE,
+  expires_at timestamptz NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_billing_grants_user_expires
+  ON billing_access_grants(user_id, expires_at);
 
 -- ============================================================
 -- ADDITIONAL INDEXES

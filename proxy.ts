@@ -59,9 +59,14 @@ export async function proxy(request: NextRequest) {
     );
   }
 
-  // Trial expiry auto-downgrade
+  // Trial expiry auto-downgrade (skip complimentary / lifetime Pro)
+  const tierProLike =
+    profile.tier === "pro" ||
+    profile.tier === "priority_10" ||
+    profile.tier === "essentials_2";
   if (
-    profile.tier === "pro" &&
+    tierProLike &&
+    !profile.is_complimentary_pro &&
     profile.trial_expires_at &&
     new Date(profile.trial_expires_at).getTime() <= Date.now()
   ) {
@@ -75,7 +80,12 @@ export async function proxy(request: NextRequest) {
     if (!subscription) {
       await supabaseAdmin
         .from("profiles")
-        .update({ tier: "free", trial_expires_at: null })
+        .update({
+          tier: "free",
+          trial_expires_at: null,
+          pro_trial_started_at:
+            profile.pro_trial_started_at ?? new Date().toISOString(),
+        })
         .eq("user_id", user.id);
     }
   }

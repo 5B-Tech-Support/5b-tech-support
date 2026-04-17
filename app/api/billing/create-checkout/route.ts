@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { stripe } from "@/lib/stripe";
+import { hasValidBillingGrant } from "@/lib/billing-gate";
 
 export async function POST() {
   try {
@@ -16,7 +17,7 @@ export async function POST() {
 
     const { data: profile } = await supabaseAdmin
       .from("profiles")
-      .select("stripe_customer_id, email")
+      .select("stripe_customer_id, email, is_complimentary_pro")
       .eq("user_id", user.id)
       .single();
 
@@ -24,6 +25,21 @@ export async function POST() {
       return NextResponse.json(
         { error: "Profile not found" },
         { status: 404 }
+      );
+    }
+
+    if (profile.is_complimentary_pro) {
+      return NextResponse.json(
+        { error: "No payment is required for your plan." },
+        { status: 400 }
+      );
+    }
+
+    const gated = await hasValidBillingGrant(user.id);
+    if (!gated) {
+      return NextResponse.json(
+        { error: "Please complete billing verification first." },
+        { status: 403 }
       );
     }
 

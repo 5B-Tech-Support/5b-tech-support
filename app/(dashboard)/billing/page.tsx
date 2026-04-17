@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getEntitlements } from "@/lib/entitlements";
 import type { Profile, Subscription } from "@/types/database";
+import { BillingOverviewClient } from "@/components/billing-overview-client";
 
 export const metadata: Metadata = { title: "Billing" };
 
@@ -43,7 +44,14 @@ export default async function BillingPage() {
       <div className="mt-8 rounded-xl border border-border p-6">
         <h2 className="font-semibold">Current Plan</h2>
 
-        {entitlements.isTrialActive && profile.trial_expires_at ? (
+        {entitlements.isComplimentaryPro ? (
+          <div className="mt-3">
+            <p className="text-sm">
+              <span className="font-medium">Complimentary Pro</span>
+              &nbsp;&mdash; full access at no charge. Thank you for being part of 5B Tech Support.
+            </p>
+          </div>
+        ) : entitlements.isTrialActive && profile.trial_expires_at ? (
           <div className="mt-3">
             <p className="text-sm">
               <span className="font-medium">Pro Trial</span> &mdash; ends{" "}
@@ -53,9 +61,11 @@ export default async function BillingPage() {
                 year: "numeric",
               })}
             </p>
-            <Link href="/api/billing/create-checkout" className="btn-primary mt-4 inline-flex">
-              Subscribe to Pro
-            </Link>
+            <BillingOverviewClient
+              isComplimentaryPro={false}
+              hasActiveSubscription={false}
+              isTrialActive
+            />
           </div>
         ) : entitlements.hasActiveSubscription ? (
           <div className="mt-3">
@@ -68,20 +78,25 @@ export default async function BillingPage() {
                 {new Date((subscription as Subscription).current_period_end!).toLocaleDateString()}
               </p>
             )}
-            <div className="mt-4 flex gap-3">
-              <Link href="/api/billing/portal" className="btn-primary inline-flex">
-                Manage Subscription
-              </Link>
-            </div>
+            <BillingOverviewClient
+              isComplimentaryPro={false}
+              hasActiveSubscription
+              isTrialActive={false}
+            />
           </div>
         ) : (
           <div className="mt-3">
             <p className="text-sm">
               <span className="font-medium">Free Plan</span>
             </p>
-            <Link href="/register/pro-trial" className="btn-primary mt-4 inline-flex">
-              Upgrade to Pro
-            </Link>
+            <p className="mt-2 text-sm text-muted">
+              Verify your email once, then choose a free trial or subscribe with a card in the secure billing area.
+            </p>
+            <BillingOverviewClient
+              isComplimentaryPro={false}
+              hasActiveSubscription={false}
+              isTrialActive={false}
+            />
           </div>
         )}
       </div>

@@ -1,10 +1,16 @@
 import type { Profile, Subscription } from "@/types/database";
 import type { Entitlements } from "@/types/entitlements";
 
+function tierIsProLike(tier: string): boolean {
+  return tier === "pro" || tier === "priority_10" || tier === "essentials_2";
+}
+
 export function getEntitlements(
   profile: Profile,
   subscription?: Subscription | null
 ): Entitlements {
+  const isComplimentaryPro = profile.is_complimentary_pro === true;
+
   const hasActiveSubscription =
     !!subscription &&
     (subscription.status === "active" || subscription.status === "trialing");
@@ -15,19 +21,21 @@ export function getEntitlements(
     : null;
 
   const isTrialActive =
-    profile.tier === "pro" &&
+    !isComplimentaryPro &&
+    tierIsProLike(profile.tier) &&
     trialEnd !== null &&
     trialEnd > now &&
     !hasActiveSubscription;
 
   const isTrialExpired =
-    profile.tier === "pro" &&
+    !isComplimentaryPro &&
+    tierIsProLike(profile.tier) &&
     trialEnd !== null &&
     trialEnd <= now &&
     !hasActiveSubscription;
 
-  const effectiveTier =
-    hasActiveSubscription || isTrialActive ? "pro" : "free";
+  const effectiveTier: Entitlements["tier"] =
+    isComplimentaryPro || hasActiveSubscription || isTrialActive ? "pro" : "free";
 
   return {
     tier: effectiveTier,
@@ -36,5 +44,6 @@ export function getEntitlements(
     isTrialActive,
     isTrialExpired,
     hasActiveSubscription,
+    isComplimentaryPro,
   };
 }

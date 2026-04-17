@@ -25,12 +25,63 @@ export interface FilterState {
   tier: string | null;
 }
 
+/** Debounced search for the main column (Windows 11 page). */
+export function GuideSearchBar({
+  search,
+  onSearchChange,
+}: {
+  search: string;
+  onSearchChange: (value: string) => void;
+}) {
+  const [searchInput, setSearchInput] = useState(search);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
+
+  function handleSearchChange(value: string) {
+    setSearchInput(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      onSearchChange(value);
+    }, 300);
+  }
+
+  return (
+    <div className="relative">
+      <svg
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      >
+        <circle cx="7" cy="7" r="5" />
+        <line x1="11" y1="11" x2="14" y2="14" />
+      </svg>
+      <input
+        type="search"
+        placeholder="Search guides\u2026"
+        value={searchInput}
+        onChange={(e) => handleSearchChange(e.target.value)}
+        className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-3 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+      />
+    </div>
+  );
+}
+
 interface GuideFiltersProps {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
+  /** When false, search is rendered elsewhere (e.g. main column). Default true. */
+  showSearch?: boolean;
 }
 
-export function GuideFilters({ filters, onChange }: GuideFiltersProps) {
+export function GuideFilters({ filters, onChange, showSearch = true }: GuideFiltersProps) {
   const [searchInput, setSearchInput] = useState(filters.search);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -51,31 +102,32 @@ export function GuideFilters({ filters, onChange }: GuideFiltersProps) {
 
   return (
     <div className="space-y-6">
-      {/* Search */}
-      <div>
-        <div className="relative">
-          <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          >
-            <circle cx="7" cy="7" r="5" />
-            <line x1="11" y1="11" x2="14" y2="14" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search guides\u2026"
-            value={searchInput}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-2.5 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
-          />
+      {showSearch && (
+        <div>
+          <div className="relative">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            >
+              <circle cx="7" cy="7" r="5" />
+              <line x1="11" y1="11" x2="14" y2="14" />
+            </svg>
+            <input
+              type="search"
+              placeholder="Search guides\u2026"
+              value={searchInput}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="w-full rounded-xl border border-border bg-surface/50 backdrop-blur-sm py-2.5 pl-10 pr-4 text-sm placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Category */}
       <div>
