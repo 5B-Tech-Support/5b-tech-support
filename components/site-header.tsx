@@ -23,7 +23,7 @@ export async function SiteHeader({
     <header className="glass-strong sticky top-0 z-40 rounded-b-2xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="/" className="group flex items-baseline gap-1.5">
-          <span className="text-xl font-extrabold gradient-text transition-transform duration-300 group-hover:scale-105">
+          <span className="logo-5b-mark text-xl font-extrabold transition-transform duration-300 group-hover:scale-105">
             5B
           </span>
           <span className="font-mono text-xs font-medium tracking-wider text-muted">

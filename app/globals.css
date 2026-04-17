@@ -139,6 +139,23 @@ body {
   background-clip: text;
 }
 
+/* Header "5B" — fixed brand purple (never pick up Pro / theme token changes) */
+.logo-5b-mark {
+  background: linear-gradient(135deg, #7c3aed, #a855f7, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-5b-mark {
+    background: linear-gradient(135deg, #a78bfa, #c084fc, #e879f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
 /* ── Animated gradient border ── */
 .gradient-border-top {
   height: 2px;
