@@ -2,16 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { AuthForm, Input } from "@/components/auth-form";
+import { useRouter } from "next/navigation";
+import { AuthForm, Input, PasswordInput } from "@/components/auth-form";
 
-function TrialConfirmModal({
+function AnimatedModal({
   open,
-  onConfirm,
-  onCancel,
+  children,
+  onClose,
 }: {
   open: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
+  children: React.ReactNode;
+  onClose: () => void;
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -30,7 +31,7 @@ function TrialConfirmModal({
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${
         visible ? "bg-foreground/20 backdrop-blur-sm" : "bg-transparent"
       }`}
-      onClick={onCancel}
+      onClick={onClose}
     >
       <div
         className={`glass-strong w-full max-w-sm rounded-2xl p-6 shadow-lg transition-all duration-300 ${
@@ -39,40 +40,106 @@ function TrialConfirmModal({
         style={{ boxShadow: "var(--glow-lg)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
-          style={{ background: "var(--accent-gradient)" }}
-        >
-          ✦
-        </div>
-        <h3 className="text-center text-lg font-bold">Activate Pro Free Trial</h3>
-        <p className="mt-3 text-center text-sm text-muted leading-relaxed">
-          You are choosing to activate a <strong className="text-foreground">1-month free trial</strong> of
-          the Pro plan starting today. After the trial ends, your account will
-          automatically revert to the Free plan. <strong className="text-foreground">You will not owe
-          anything</strong> at that date.
-        </p>
-        <div className="mt-6 flex gap-3">
-          <button
-            onClick={onCancel}
-            className="btn-secondary flex-1 !py-2.5 !text-sm"
-          >
-            Go Back
-          </button>
-          <button
-            onClick={onConfirm}
-            className="btn-primary flex-1 !py-2.5 !text-sm"
-          >
-            Start Trial
-          </button>
-        </div>
+        {children}
       </div>
     </div>
+  );
+}
+
+function TrialConfirmModal({
+  open,
+  onConfirm,
+  onCancel,
+}: {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <AnimatedModal open={open} onClose={onCancel}>
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
+        style={{ background: "var(--accent-gradient)" }}
+      >
+        ✦
+      </div>
+      <h3 className="text-center text-lg font-bold">Activate Pro Free Trial</h3>
+      <p className="mt-3 text-center text-sm text-muted leading-relaxed">
+        You are choosing to activate a <strong className="text-foreground">1-month free trial</strong> of
+        the Pro plan starting today. After the trial ends, your account will
+        automatically revert to the Free plan. <strong className="text-foreground">You will not owe
+        anything</strong> at that date.
+      </p>
+      <div className="mt-6 flex gap-3">
+        <button onClick={onCancel} className="btn-secondary flex-1 !py-2.5 !text-sm">
+          Go Back
+        </button>
+        <button onClick={onConfirm} className="btn-primary flex-1 !py-2.5 !text-sm">
+          Start Trial
+        </button>
+      </div>
+    </AnimatedModal>
+  );
+}
+
+function AccountExistsModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const router = useRouter();
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    if (!open) {
+      setCountdown(5);
+      return;
+    }
+    const t = setInterval(() => {
+      setCountdown((c) => {
+        if (c <= 1) {
+          clearInterval(t);
+          router.push("/login");
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, [open, router]);
+
+  return (
+    <AnimatedModal open={open} onClose={onClose}>
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
+        style={{ background: "var(--accent-gradient)" }}
+      >
+        👋
+      </div>
+      <h3 className="text-center text-lg font-bold">Account already exists</h3>
+      <p className="mt-3 text-center text-sm text-muted leading-relaxed">
+        An account with this email address already exists.
+        Redirecting you to the login page in <strong className="text-foreground">{countdown}s</strong>.
+      </p>
+      <div className="mt-6 flex gap-3">
+        <button onClick={onClose} className="btn-secondary flex-1 !py-2.5 !text-sm">
+          Stay Here
+        </button>
+        <button
+          onClick={() => router.push("/login")}
+          className="btn-primary flex-1 !py-2.5 !text-sm"
+        >
+          Go to Login
+        </button>
+      </div>
+    </AnimatedModal>
   );
 }
 
 export default function RegisterPage() {
   const [plan, setPlan] = useState<"free" | "pro">("free");
   const [showTrialModal, setShowTrialModal] = useState(false);
+  const [showExistsModal, setShowExistsModal] = useState(false);
   const [pendingFormData, setPendingFormData] = useState<FormData | null>(null);
   const [submitResolver, setSubmitResolver] = useState<{
     resolve: (value: { error?: string; redirect?: string; message?: string }) => void;
@@ -93,14 +160,27 @@ export default function RegisterPage() {
       }),
     });
     const data = await res.json();
-    if (!res.ok) return { error: data.error ?? "Sign up failed" };
+    if (!res.ok) {
+      const msg = (data.error ?? "").toLowerCase();
+      if (msg.includes("already registered") || msg.includes("already been registered") || msg.includes("user already exists")) {
+        return { error: "__account_exists__" };
+      }
+      return { error: data.error ?? "Sign up failed" };
+    }
     return { redirect: `/verify-email?email=${encodeURIComponent(email)}` };
   }, []);
 
   function handleTrialConfirm() {
     setShowTrialModal(false);
     if (pendingFormData && submitResolver) {
-      doSignup(pendingFormData, "pro").then(submitResolver.resolve);
+      doSignup(pendingFormData, "pro").then((result) => {
+        if (result.error === "__account_exists__") {
+          submitResolver.resolve({});
+          setShowExistsModal(true);
+        } else {
+          submitResolver.resolve(result);
+        }
+      });
     }
   }
 
@@ -119,6 +199,10 @@ export default function RegisterPage() {
         open={showTrialModal}
         onConfirm={handleTrialConfirm}
         onCancel={handleTrialCancel}
+      />
+      <AccountExistsModal
+        open={showExistsModal}
+        onClose={() => setShowExistsModal(false)}
       />
 
       <AuthForm
@@ -142,7 +226,12 @@ export default function RegisterPage() {
             });
           }
 
-          return doSignup(formData, "free");
+          const result = await doSignup(formData, "free");
+          if (result.error === "__account_exists__") {
+            setShowExistsModal(true);
+            return {};
+          }
+          return result;
         }}
         footer={
           <>
@@ -158,8 +247,8 @@ export default function RegisterPage() {
           <Input label="Last name" name="last_name" type="text" required autoComplete="family-name" />
         </div>
         <Input label="Email" name="email" type="email" required autoComplete="email" />
-        <Input label="Password" name="password" type="password" required minLength={6} autoComplete="new-password" />
-        <Input label="Confirm password" name="confirm_password" type="password" required minLength={6} autoComplete="new-password" />
+        <PasswordInput label="Password" name="password" required minLength={6} autoComplete="new-password" />
+        <PasswordInput label="Confirm password" name="confirm_password" required minLength={6} autoComplete="new-password" />
 
         <fieldset className="space-y-2">
           <legend className="text-sm font-medium">Choose your plan</legend>

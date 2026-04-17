@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { AuthForm, Input } from "@/components/auth-form";
+import { AuthForm, Input, PasswordInput } from "@/components/auth-form";
 
 const ERROR_MESSAGES: Record<string, string> = {
   missing_code: "The verification link was invalid or incomplete. Please try again.",
@@ -43,7 +43,7 @@ function LoginForm() {
       }
     >
       <Input label="Email" name="email" type="email" required autoComplete="email" />
-      <Input label="Password" name="password" type="password" required autoComplete="current-password" />
+      <PasswordInput label="Password" name="password" required autoComplete="current-password" />
       <div className="text-right">
         <Link href="/forgot-password" className="text-xs text-primary hover:underline">
           Forgot your password?
