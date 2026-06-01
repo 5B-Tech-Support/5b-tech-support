@@ -50,6 +50,7 @@ export async function POST(request: Request) {
     ign_lower: ignLower,
     discord: discord || null,
     player_token: playerToken,
+    entry_confirmed: true,
   });
 
   if (error) {
