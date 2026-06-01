@@ -183,6 +183,13 @@ body {
   0%, 100% { box-shadow: var(--glow-sm); }
   50%      { box-shadow: var(--glow-md); }
 }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
 
 .animate-fade-up {
   animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -195,6 +202,9 @@ body {
 }
 .animate-glow-pulse {
   animation: glow-pulse 3s ease-in-out infinite;
+}
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .stagger-1 { animation-delay: 0.1s; }
